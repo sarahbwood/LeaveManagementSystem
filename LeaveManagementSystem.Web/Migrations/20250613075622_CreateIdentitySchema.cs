@@ -9,6 +9,8 @@ namespace LeaveManagementSystem.Web.Migrations
     public partial class CreateIdentitySchema : Migration
     {
         /// <inheritdoc />
+
+        // what changes need to be made to the database schema
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
@@ -197,6 +199,8 @@ namespace LeaveManagementSystem.Web.Migrations
         }
 
         /// <inheritdoc />
+
+        // how to undo the changes made in the Up method
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
