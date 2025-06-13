@@ -11,6 +11,9 @@ public class LeaveManagementSystemWebContext : IdentityDbContext<LeaveManagement
         : base(options)
     {
     }
+    // Add a DbSet for each entity type that you want to include in the model.
+    // Db<type> tableName
+    public DbSet<LeaveType> LeaveTypes { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
