@@ -24,9 +24,6 @@ builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 builder.Services.AddDefaultIdentity<LeaveManagementSystemWebUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<LeaveManagementSystemWebContext>();
 
-//builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-//    .AddEntityFrameworkStores<ApplicationDbContext>();
-
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
