@@ -1,11 +1,10 @@
-﻿using LeaveManagementSystem.Web.Areas.Identity.Data;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace LeaveManagementSystem.Web.Data;
 
-public class LeaveManagementSystemWebContext : IdentityDbContext<LeaveManagementSystemWebUser>
+public class LeaveManagementSystemWebContext : IdentityDbContext<ApplicationUser>
 {
     public LeaveManagementSystemWebContext(DbContextOptions<LeaveManagementSystemWebContext> options)
         : base(options)
@@ -49,8 +48,8 @@ public class LeaveManagementSystemWebContext : IdentityDbContext<LeaveManagement
 
         );
 
-        builder.Entity<IdentityUser>().HasData(
-            new IdentityUser
+        builder.Entity<ApplicationUser>().HasData(
+            new ApplicationUser
             {
                 Id = "71d6b0b7-6d31-437c-957d-736461c0041d",
                 UserName = "admin@localhost.com",
@@ -58,7 +57,10 @@ public class LeaveManagementSystemWebContext : IdentityDbContext<LeaveManagement
                 Email = "admin@localhost.com",
                 NormalizedEmail = "ADMIN@LOCALHOST.COM",
                 PasswordHash = "AQAAAAIAAYagAAAAEBW7ac8vdc6z8wTbTWJQ9Wch5Od0B7wNjHptnC7JM/0RVYQk4GLC0zlYVwH9Wix2EQ==",
-                EmailConfirmed = true
+                EmailConfirmed = true,
+                FirstName = "Default",
+                LastName = "Administrator",
+                DateOfBirth = new DateOnly(1970, 1, 1)
             }
         );
 

@@ -1,8 +1,8 @@
-﻿@using Microsoft.AspNetCore.Identity
-@using LeaveManagementSystem.Web.Areas.Identity.Data
+﻿@using LeaveManagementSystem.Web.Data
+@using Microsoft.AspNetCore.Identity
 
-@inject SignInManager<LeaveManagementSystemWebUser> SignInManager
-@inject UserManager<LeaveManagementSystemWebUser> UserManager
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
 
 <ul class="navbar-nav">
 @if (SignInManager.IsSignedIn(User))

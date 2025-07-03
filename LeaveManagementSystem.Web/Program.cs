@@ -1,5 +1,4 @@
 using System.Reflection;
-using LeaveManagementSystem.Web.Areas.Identity.Data;
 using LeaveManagementSystem.Web.Data;
 using LeaveManagementSystem.Web.Services;
 using Microsoft.AspNetCore.Identity;
@@ -18,10 +17,12 @@ builder.Services.AddDbContext<LeaveManagementSystemWebContext>(options => option
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddScoped<ILeaveTypesService, LeaveTypesService>();
+builder.Services.AddTransient<IEmailSender, EmailSender>();
 
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
-builder.Services.AddDefaultIdentity<LeaveManagementSystemWebUser>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<LeaveManagementSystemWebContext>();
 
 // Add services to the container.
@@ -42,6 +43,7 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapStaticAssets();
@@ -51,5 +53,6 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}")
     .WithStaticAssets();
 
+app.MapRazorPages();
 
 app.Run();

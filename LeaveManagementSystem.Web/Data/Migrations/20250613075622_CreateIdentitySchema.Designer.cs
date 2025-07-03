@@ -25,7 +25,7 @@ namespace LeaveManagementSystem.Web.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("LeaveManagementSystem.Web.Areas.Identity.Data.LeaveManagementSystemWebUser", b =>
+            modelBuilder.Entity("LeaveManagementSystem.Web.Areas.Identity.Data.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -238,7 +238,7 @@ namespace LeaveManagementSystem.Web.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("LeaveManagementSystem.Web.Areas.Identity.Data.LeaveManagementSystemWebUser", null)
+                    b.HasOne("LeaveManagementSystem.Web.Areas.Identity.Data.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -247,7 +247,7 @@ namespace LeaveManagementSystem.Web.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("LeaveManagementSystem.Web.Areas.Identity.Data.LeaveManagementSystemWebUser", null)
+                    b.HasOne("LeaveManagementSystem.Web.Areas.Identity.Data.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -262,7 +262,7 @@ namespace LeaveManagementSystem.Web.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("LeaveManagementSystem.Web.Areas.Identity.Data.LeaveManagementSystemWebUser", null)
+                    b.HasOne("LeaveManagementSystem.Web.Areas.Identity.Data.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -271,7 +271,7 @@ namespace LeaveManagementSystem.Web.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("LeaveManagementSystem.Web.Areas.Identity.Data.LeaveManagementSystemWebUser", null)
+                    b.HasOne("LeaveManagementSystem.Web.Areas.Identity.Data.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
