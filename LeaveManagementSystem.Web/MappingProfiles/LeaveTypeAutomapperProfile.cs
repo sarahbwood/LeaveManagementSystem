@@ -1,12 +1,13 @@
 ﻿using AutoMapper;
 using LeaveManagementSystem.Web.Data;
 using LeaveManagementSystem.Web.Models.LeaveTypes;
+using LeaveManagementSystem.Web.Models.Periods; 
 
 namespace LeaveManagementSystem.Web.MappingProfiles
 {
-    public class AutomapperProfile : Profile
+    public class LeaveTypeAutomapperProfile : Profile
     {
-        public AutomapperProfile()
+        public LeaveTypeAutomapperProfile()
         {
             CreateMap<LeaveType, LeaveTypeReadOnlyVM>();
 

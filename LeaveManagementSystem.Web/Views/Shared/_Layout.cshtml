@@ -29,9 +29,22 @@
                         
                         @if (User.IsInRole(Roles.Administrator))
                         {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" type="button" href="#" id="navbarDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Management
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" asp-area="" asp-controller="LeaveTypes" asp-action="Index">Leave Types</a>
+                                    <a class="dropdown-item" asp-area="" asp-controller="Periods" asp-action="Index">Periods</a>
+                                    <a class="dropdown-item" asp-area="" asp-controller="LeaveAllocation" asp-action="Index">View Employees</a>
+                                </div>
+                            </li>
+                        }
 
+                        @if (User.Identity.IsAuthenticated)
+                        {
                             <li class="nav-item">
-                                <a class="nav-link text-light" asp-area="" asp-controller="LeaveTypes" asp-action="Index">Leave Types</a>
+                                <a class="nav-link text-light" asp-area="" asp-controller="LeaveAllocation" asp-action="Details">View Allocations</a>
                             </li>
                         }
                     </ul>
