@@ -1,7 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
-using LeaveManagementSystem.Web.Data;
+﻿using AutoMapper;
 using LeaveManagementSystem.Web.Models.LeaveAllocations;
-using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace LeaveManagementSystem.Web.Services.LeaveAllocations
@@ -62,6 +61,23 @@ namespace LeaveManagementSystem.Web.Services.LeaveAllocations
             };
 
             return employeeVM;
+        }
+
+        public async Task<LeaveAllocationEditVM> GetEmployeeAllocation(int allocationId)
+        {
+            var allocation = await _context.LeaveAllocations
+                .Include(q => q.LeaveType)
+                .Include(q => q.Employee)
+                .FirstOrDefaultAsync(q => q.Id == allocationId);
+
+            var allocationVM = _mapper.Map<LeaveAllocationEditVM>(allocation);
+            return allocationVM;
+        }
+        public async Task EditAllocation(LeaveAllocationEditVM leaveAllocationEditVM)
+        {
+            await _context.LeaveAllocations
+                .Where(q => q.Id == leaveAllocationEditVM.Id) // filter responsibily children!
+                .ExecuteUpdateAsync(s => s.SetProperty(e => e.NumberOfDays, leaveAllocationEditVM.NumberOfDays));
         }
 
         public async Task<List<EmployeeListVM>> GetEmployees()

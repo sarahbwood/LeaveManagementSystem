@@ -65,23 +65,27 @@
                 <div class="col"><strong>Leave Name</strong></div>  
                 <div class="col"><strong>Original Allocation</strong></div>  
                 <div class="col"><strong>Current Allocation</strong></div>  
-                <div class="col"><strong>Action</strong></div>  
+                <div class="col"></div>  
             </div>  
         </li>  
-        @foreach (var allocations in Model.LeaveAllocations)  
+        @foreach (var allocation in Model.LeaveAllocations)  
         {  
             <li class="list-group-item">  
                 <div class="row">  
-                    <div class="col">@allocations.LeaveType.LeaveTypeName</div>  
+                    <div class="col">@allocation.LeaveType.LeaveTypeName</div>  
                     <div class="col">  
-                        <span class="badge rounded-pill text-bg-primary">@allocations.NumberOfDays</span>  
+                        <span class="badge rounded-pill text-bg-primary">@allocation.NumberOfDays</span>  
                     </div>  
                     <div class="col">  
-                        <span class="badge rounded-pill text-bg-warning">@allocations.NumberOfDays</span>  
-                    </div>  
-                    <div class="col">  
-                        <a asp-controller="LeaveRequest" asp-action="Create" class="btn btn-success">Request Leave</a>  
-                    </div>  
+                        <span class="badge rounded-pill text-bg-warning">@allocation.NumberOfDays</span>  
+                    </div>
+                    <div class="col">
+                        @if (isAdmin)
+                        {
+                            <a class="btn btn-warning" asp-action="EditAllocation" asp-route-id="@allocation.Id">Edit Allocation</a>
+                        }
+                        <a asp-controller="LeaveRequest" asp-action="Create" class="btn btn-success">Request Leave</a>
+                    </div>
                 </div>  
             </li>  
         }  

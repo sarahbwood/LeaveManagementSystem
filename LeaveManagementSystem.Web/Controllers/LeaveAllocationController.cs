@@ -1,12 +1,15 @@
 ﻿using System.Threading.Tasks;
+using LeaveManagementSystem.Web.Models.LeaveAllocations;
 using LeaveManagementSystem.Web.Services.LeaveAllocations;
+using LeaveManagementSystem.Web.Services.LeaveTypes;
+using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LeaveManagementSystem.Web.Controllers
 {
     [Authorize]
 
-    public class LeaveAllocationController(ILeaveAllocationsService _leaveAllocationsService) : Controller
+    public class LeaveAllocationController(ILeaveAllocationsService _leaveAllocationsService, ILeaveTypesService _leaveTypesService) : Controller
     {
         [Authorize(Roles = Roles.Administrator)]
         public async Task<IActionResult> Index()
@@ -27,7 +30,48 @@ namespace LeaveManagementSystem.Web.Controllers
         public async Task<IActionResult> AllocateLeave(string? id)
         {
             await _leaveAllocationsService.AllocateLeave(id);
-            return RedirectToAction(nameof(Details), new {userId = id});
+            return RedirectToAction(nameof(Details), new { userId = id });
+        }
+
+        [Authorize(Roles = Roles.Administrator)]
+        public async Task<IActionResult> EditAllocation(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var leaveAllocation = await _leaveAllocationsService.GetEmployeeAllocation(id.Value);
+            if(leaveAllocation == null)
+            {
+                return NotFound();
+            }
+
+            return View(leaveAllocation);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditAllocation(LeaveAllocationEditVM leaveAllocationEditVM)
+        {
+            if (await _leaveTypesService.DaysExceedMaximum(leaveAllocationEditVM.LeaveType.LeaveTypeId, leaveAllocationEditVM.NumberOfDays))
+            {
+                ModelState.AddModelError(nameof(leaveAllocationEditVM.NumberOfDays), "Number of days exceeds maximum allowed for this leave type.");
+            }
+
+            if (ModelState.IsValid)
+            {
+                await _leaveAllocationsService.EditAllocation(leaveAllocationEditVM);
+                return RedirectToAction(nameof(Details), new { userId = leaveAllocationEditVM.Employee.Id });
+
+
+            }
+
+            var days = leaveAllocationEditVM.NumberOfDays;
+            leaveAllocationEditVM = await _leaveAllocationsService.GetEmployeeAllocation(leaveAllocationEditVM.Id); // Re-fetch the allocation to ensure that the view model isn't missing any data
+            leaveAllocationEditVM.NumberOfDays = days; // Restore user selected number of days to the view model
+
+            return View(leaveAllocationEditVM);
         }
     }
 }
