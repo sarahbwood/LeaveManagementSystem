@@ -1,0 +1,128 @@
+﻿@model EmployeeLeaveRequestListVM
+
+@{
+	ViewData["Title"] = "View Leave Requests";
+}
+
+<h1>Admin Leave Requests View</h1>
+
+<div class="row">
+	<div class="col">
+		<div class="card">
+			<div class="card-body text-center">
+				<h1 class="card-title text-primary">@Model.TotalRequests</h1>
+				<h5 class="card-text">@Html.DisplayNameFor(model => model.TotalRequests)</h5>
+			</div>
+		</div>
+	</div>
+	<div class="col">
+		<div class="card">
+			<div class="card-body text-center">
+				<h1 class="card-title text-success">@Model.ApprovedRequests</h1>
+				<h5 class="card-text">@Html.DisplayNameFor(model => model.ApprovedRequests)</h5>
+			</div>
+		</div>
+	</div>
+	<div class="col">
+		<div class="card">
+			<div class="card-body text-center">
+				<h1 class="card-title text-warning">@Model.PendingRequests</h1>
+				<h5 class="card-text">@Html.DisplayNameFor(model => model.PendingRequests)</h5>
+			</div>
+		</div>
+	</div>
+	<div class="col">
+		<div class="card">
+			<div class="card-body text-center">
+				<h1 class="card-title text-danger">@Model.DeclinedRequests</h1>
+				<h5 class="card-text">@Html.DisplayNameFor(model => model.DeclinedRequests)</h5>
+			</div>
+		</div>
+	</div>
+</div>
+
+<hr />
+
+<h2>Leave Requests</h2>
+
+@if (Model.LeaveRequests.Count == 0)
+{
+	<div class="alert alert-info">
+		<h3>There are currently no leave requests.</h3>
+	</div>
+}
+else
+{
+	<table class="table">
+		<thead>
+			<tr>
+				<th>
+					@Html.DisplayNameFor(model => model.LeaveRequests[0].LeaveType)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.LeaveRequests[0].StartDate)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.LeaveRequests[0].EndDate)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.LeaveRequests[0].NumberOfDays)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.LeaveRequests[0].LeaveRequestStatus)
+				</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var item in Model.LeaveRequests)
+			{
+				var className = string.Empty;
+
+				<tr>
+					<td>
+						@Html.DisplayFor(modelItem => item.LeaveType)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.StartDate)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.EndDate)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.NumberOfDays)
+					</td>
+					<td>
+						@switch (item.LeaveRequestStatus)
+						{
+							case LeaveRequestStatusEnum.Pending:
+								className = "warning";
+								break;
+							case LeaveRequestStatusEnum.Approved:
+								className = "success";
+								break;
+							case LeaveRequestStatusEnum.Declined:
+								className = "danger";
+								break;
+							case LeaveRequestStatusEnum.Cancelled:
+								className = "dark";
+								break;
+						}
+
+						<span class="badge rounded-pill bg-@className">
+							@item.LeaveRequestStatus.ToString()
+						</span>
+					</td>
+					<td>
+						@if (item.LeaveRequestStatus == LeaveRequestStatusEnum.Pending)
+						{
+							<button data-id="@item.Id" class="btn btn-info reviewBtn">Review</button>
+						}
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+}
+
+
