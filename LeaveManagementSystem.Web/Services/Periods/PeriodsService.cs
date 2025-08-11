@@ -51,5 +51,14 @@ namespace LeaveManagementSystem.Web.Services.Periods
             _context.Periods.Add(period);
             await _context.SaveChangesAsync();
         }
+
+        public async Task<Period> GetCurrentPeriod()
+        {
+            var currentYear = DateTime.Now.Year;
+            var currentPeriod = await _context.Periods
+                .SingleAsync(q => q.EndDate.Year == currentYear);
+
+            return currentPeriod;
+        }
     }
 }

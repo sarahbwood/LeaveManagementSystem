@@ -9,5 +9,6 @@ namespace LeaveManagementSystem.Web.Services.Periods
         Task<T?> Get<T>(int id) where T : class;
         Task<List<PeriodReadOnlyVM>> GetAll();
         Task Remove(int id);
+        Task<Period> GetCurrentPeriod();
     }
 }

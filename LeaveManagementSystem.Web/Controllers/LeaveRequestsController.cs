@@ -79,23 +79,21 @@ namespace LeaveManagementSystem.Web.Controllers
         }
 
         // Allow admin/supervisor to review leave requests
-        public async Task<IActionResult> ReviewLeaveRequest(int id)
+        public async Task<IActionResult> Review(int id)
         {
             // Logic to get a specific leave request for review
-            return View();
+            var model = await _leaveRequestsService.GetLeaveRequestForReview(id);
+            return View(model);
         }
 
         // Allow admin/supervisor to submit their review, i.e post request
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ReviewLeaveRequest(LeaveRequest leaveRequest) // view model
+        public async Task<IActionResult> Review(int id, bool approved) 
         {
-            if (ModelState.IsValid)
-            {
-                // Logic to update the leave request status based on review
-                return RedirectToAction("ListAllLeaveRequests");
-            }
-            return View(leaveRequest);
+            await _leaveRequestsService.ReviewLeaveRequest(id, approved);
+
+            return RedirectToAction(nameof(ListRequests));
         }
     }
 }

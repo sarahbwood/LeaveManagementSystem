@@ -1,0 +1,101 @@
+﻿@using Microsoft.IdentityModel.Tokens
+@model LeaveRequestReviewVM
+
+@{
+		ViewData["Title"] = "Review Leave Request";
+
+}
+
+<h1>Review Leave Request</h1>
+
+<div class="alert alert-info">
+	<h4 class="alert-heading">Requesting Employee</h4>
+	<hr />
+	<p>
+		<strong>@Model.Employee.FirstName @Model.Employee.LastName</strong> <br />
+		@Model.Employee.Email
+	</p>
+</div>
+
+<div>
+	<dl class="row">
+		<dt class="col-sm-2">@Html.DisplayNameFor(model => model.LeaveType)</dt>
+		<dd class="col-sm-10">@Model.LeaveType</dd>
+		<dt class="col-sm-2">@Html.DisplayNameFor(model => model.StartDate)</dt>
+		<dd class="col-sm-10">@Model.StartDate</dd>
+		<dt class="col-sm-2">@Html.DisplayNameFor(model => model.EndDate)</dt>
+		<dd class="col-sm-10">@Model.EndDate</dd>
+		<dt class="col-sm-2">@Html.DisplayNameFor(model => model.NumberOfDays)</dt>
+		<dd class="col-sm-10">@Model.NumberOfDays</dd>
+
+		@if (!Model.RequestComments.IsNullOrEmpty())
+		{
+			<dt class="col-sm-2">@Html.DisplayNameFor(model => model.RequestComments)</dt>
+			<dd class="col-sm-10">@Model.RequestComments</dd>
+		}
+	</dl>
+</div>
+
+<div class="row">
+	<div class="col">
+		<button class="btn btn-success approvalBtn" data-id="@Model.Id" data-approved="true">Approve</button>
+		<button class="btn btn-danger approvalBtn" data-id="@Model.Id" data-approved="false">Decline</button>
+		<a asp-action="ListRequests" class="btn btn-primary">Back to List</a>
+	</div>
+</div>
+
+<form asp-action="Review" id="approvalForm">
+	<input type="hidden" name="id" id="leaveRequestId"/>
+	<input type="hidden" name="approved" id="isApproved" />
+</form>
+
+@section Scripts{
+	<script>
+		const swalBootstrapButtons = Swal.mixin({
+			customClass: {
+				cancelButton: "btn btn-primary",
+				confirmButton: "btn btn-danger"
+			},
+			buttonStyling: false
+		});
+
+		$(function(){
+			$('.approvalBtn').click(
+				function (e) {
+					var statusString = "";
+					
+					var btn = $(this);
+					var status = btn.data('approved');
+					
+					switch(status) {
+						case true:
+							statusString = "approve";
+							break;
+						case false:
+							statusString = "decline";
+							break;
+						default:
+							statusString = "default";
+					}
+
+					swalBootstrapButtons.fire(
+						{
+							title: "Are you sure?",
+							text: `Are you sure you'd like to ${statusString} this request?`,
+							icon: "warning",
+							showCancelButton: true,
+							confirmButtonText: `Yes, ${statusString} it!`
+						}
+					).then((result) => {
+						if(result.isConfirmed){
+							var id = btn.data('id');
+							$('#leaveRequestId').val(id);
+							$('#isApproved').val(status);
+							$('#approvalForm').submit();
+						}
+					});
+				}
+			);
+		});
+	</script>
+}

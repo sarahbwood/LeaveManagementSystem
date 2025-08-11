@@ -6,6 +6,7 @@ using LeaveManagementSystem.Web.Services.Periods;
 using LeaveManagementSystem.Web.Services.LeaveRequests;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using LeaveManagementSystem.Web.Services.Users;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -23,6 +24,7 @@ builder.Services.AddScoped<ILeaveTypesService, LeaveTypesService>();
 builder.Services.AddScoped<ILeaveAllocationsService, LeaveAllocationsService>();
 builder.Services.AddScoped<ILeaveRequestsService, LeaveRequestsService>();
 builder.Services.AddScoped<IPeriodsService, PeriodsService>();
+builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 
 builder.Services.AddHttpContextAccessor();
