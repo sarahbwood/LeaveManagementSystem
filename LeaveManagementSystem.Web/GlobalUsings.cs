@@ -11,7 +11,7 @@ global using Microsoft.AspNetCore.Identity.UI.Services;
 global using Microsoft.AspNetCore.Mvc;
 global using Microsoft.AspNetCore.Mvc.RazorPages;
 global using Microsoft.Extensions.Logging;
-global using LeaveManagementSystem.Web.Common;
+global using LeaveManagementSystem.Common.Static;
 global using System.Reflection;
 global using LeaveManagementSystem.Web.Models.LeaveAllocations;
 
