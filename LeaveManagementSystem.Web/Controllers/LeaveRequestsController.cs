@@ -19,11 +19,11 @@ namespace LeaveManagementSystem.Web.Controllers
         }
 
         // Create - Allow employees to create a new leave request
-        public async Task<IActionResult> Create()
+        public async Task<IActionResult> Create(int? leaveTypeId)
         {
             // Logic to create a leave request
             var leaveTypes = await _leaveTypesService.GetAll();
-            var leaveTypesList = new SelectList(leaveTypes, "LeaveTypeId", "LeaveTypeName");
+            var leaveTypesList = new SelectList(leaveTypes, "LeaveTypeId", "LeaveTypeName", leaveTypeId);
             var model = new LeaveRequestCreateVM
             {
                 StartDate = DateOnly.FromDateTime(DateTime.Now),
@@ -70,7 +70,7 @@ namespace LeaveManagementSystem.Web.Controllers
         }
 
         // Allow admin/supervisor to view all leave requests
-        [Authorize(Roles = Roles.Administrator)]
+        [Authorize(Policy = "AdminSupervisorOnly")]
         public async Task<IActionResult> ListRequests()
         {
             // Logic to get all leave requests
