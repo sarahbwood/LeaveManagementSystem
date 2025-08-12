@@ -1,9 +1,6 @@
-﻿using System.Threading.Tasks;
-using LeaveManagementSystem.Web.Models.LeaveAllocations;
-using LeaveManagementSystem.Web.Services.LeaveAllocations;
-using LeaveManagementSystem.Web.Services.LeaveTypes;
-using Microsoft.AspNetCore.Antiforgery;
-using Microsoft.AspNetCore.Mvc;
+﻿using LeaveManagementSystem.Application.Models.LeaveAllocations;
+using LeaveManagementSystem.Application.Services.LeaveAllocations;
+using LeaveManagementSystem.Application.Services.LeaveTypes;
 
 namespace LeaveManagementSystem.Web.Controllers
 {
@@ -42,7 +39,7 @@ namespace LeaveManagementSystem.Web.Controllers
             }
 
             var leaveAllocation = await _leaveAllocationsService.GetEmployeeAllocation(id.Value);
-            if(leaveAllocation == null)
+            if (leaveAllocation == null)
             {
                 return NotFound();
             }

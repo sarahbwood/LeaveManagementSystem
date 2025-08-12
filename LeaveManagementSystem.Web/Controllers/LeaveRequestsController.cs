@@ -1,7 +1,6 @@
-﻿using LeaveManagementSystem.Web.Models.LeaveRequests;
-using LeaveManagementSystem.Web.Services.LeaveRequests;
-using LeaveManagementSystem.Web.Services.LeaveTypes;
-using Microsoft.AspNetCore.Mvc;
+﻿using LeaveManagementSystem.Application.Models.LeaveRequests;
+using LeaveManagementSystem.Application.Services.LeaveRequests;
+using LeaveManagementSystem.Application.Services.LeaveTypes;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace LeaveManagementSystem.Web.Controllers
@@ -89,7 +88,7 @@ namespace LeaveManagementSystem.Web.Controllers
         // Allow admin/supervisor to submit their review, i.e post request
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Review(int id, bool approved) 
+        public async Task<IActionResult> Review(int id, bool approved)
         {
             await _leaveRequestsService.ReviewLeaveRequest(id, approved);
 

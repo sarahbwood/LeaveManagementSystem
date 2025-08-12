@@ -1,49 +1,26 @@
-using LeaveManagementSystem.Web.Data;
-using LeaveManagementSystem.Web.Services.Email;
-using LeaveManagementSystem.Web.Services.LeaveAllocations;
-using LeaveManagementSystem.Web.Services.LeaveTypes;
-using LeaveManagementSystem.Web.Services.Periods;
-using LeaveManagementSystem.Web.Services.LeaveRequests;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using LeaveManagementSystem.Web.Services.Users;
-
+using LeaveManagementSystem.Application;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-var connectionString = builder
-    .Configuration
-    .GetConnectionString("LeaveManagementSystemWebContextConnection") ?? throw new InvalidOperationException("Connection string 'LeaveManagementSystemWebContextConnection' not found.");
+DataServicesRegistration.AddDataServices(builder.Services, builder.Configuration); // register services from the Data layer
+ApplicationServicesRegistration.AddApplicationServices(builder.Services); // register services from the Application layer
 
-builder.Services.AddDbContext<LeaveManagementSystemWebContext>(options => options.UseSqlServer(connectionString));
-
-builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-
-builder.Services.AddScoped<ILeaveTypesService, LeaveTypesService>();
-builder.Services.AddScoped<ILeaveAllocationsService, LeaveAllocationsService>();
-builder.Services.AddScoped<ILeaveRequestsService, LeaveRequestsService>();
-builder.Services.AddScoped<IPeriodsService, PeriodsService>();
-builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddTransient<IEmailSender, EmailSender>();
-
+// Add authorization policies
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("AdminSupervisorOnly", policy =>
     {
-        policy.RequireRole(Roles.Administrator , Roles.Supervisor); // Admin OR Supervisor
+        policy.RequireRole(Roles.Administrator, Roles.Supervisor); // Admin OR Supervisor
     });
-}); // Add authorization policies 
+});  
 
 builder.Services.AddHttpContextAccessor();
-
-builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly()); // get all automappers from executing assembly
 
 builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<LeaveManagementSystemWebContext>();
 
-// Add services to the container.
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
