@@ -1,10 +1,18 @@
 using LeaveManagementSystem.Application;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 DataServicesRegistration.AddDataServices(builder.Services, builder.Configuration); // register services from the Data layer
 ApplicationServicesRegistration.AddApplicationServices(builder.Services); // register services from the Application layer
+
+// logging
+builder.Host.UseSerilog((ctx, config) => 
+    config
+    .WriteTo.Console()
+    .ReadFrom.Configuration(ctx.Configuration) // ctx refers to the build context
+);
 
 // Add authorization policies
 builder.Services.AddAuthorization(options =>

@@ -5,13 +5,14 @@ using Microsoft.EntityFrameworkCore;
 namespace LeaveManagementSystem.Web.Controllers
 {
     [Authorize(Roles = Roles.Administrator)]
-    public class LeaveTypesController(ILeaveTypesService _leaveTypesService) : Controller
+    public class LeaveTypesController(ILeaveTypesService _leaveTypesService, ILogger<LeaveTypesController> _logger) : Controller
     {
         private const string NameExistsValidationMessage = "This leave type already exists in the database.";
 
         // GET: LeaveTypes
         public async Task<IActionResult> Index()
         {
+            _logger.LogInformation("Loading Leave Types");
             var viewData = await _leaveTypesService.GetAll(); // encapsulate the logic in the service layer 
             return View(viewData);  // return the view model to the view
         }
