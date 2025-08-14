@@ -16585,10 +16585,6 @@ ul {
   cursor: pointer;
 }
 
-.card-title {
-  font-size: 18px;
-}
-
 .card-subtitle {
   font-size: 14px;
 }
@@ -16615,6 +16611,14 @@ ul {
 .rounded-circle-shape {
   width: 56px;
   height: 40px;
+}
+
+#site-title {
+    color: navajowhite;
+}
+
+.dropdown-toggle::after {
+    display: none !important;
 }
 
 .timeline-widget .timeline-item {
