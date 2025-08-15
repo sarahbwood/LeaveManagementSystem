@@ -4,6 +4,7 @@
 
 using System.Text;
 using System.Text.Encodings.Web;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.WebUtilities;
 
 namespace LeaveManagementSystem.Web.Areas.Identity.Pages.Account
@@ -13,11 +14,13 @@ namespace LeaveManagementSystem.Web.Areas.Identity.Pages.Account
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IEmailSender _emailSender;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public ResendEmailConfirmationModel(UserManager<ApplicationUser> userManager, IEmailSender emailSender)
+        public ResendEmailConfirmationModel(UserManager<ApplicationUser> userManager, IEmailSender emailSender, IWebHostEnvironment webHostEnvironment)
         {
             _userManager = userManager;
             _emailSender = emailSender;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         /// <summary>
@@ -68,6 +71,16 @@ namespace LeaveManagementSystem.Web.Areas.Identity.Pages.Account
                 pageHandler: null,
                 values: new { userId = userId, code = code },
                 protocol: Request.Scheme);
+
+            // get email template
+            var emailTemplatePath = Path.Combine(_webHostEnvironment.WebRootPath, "templates", "email_layout.html");
+            var emailTemplate = await System.IO.File.ReadAllTextAsync(emailTemplatePath);
+            var messageBody = emailTemplate
+                .Replace("{FullName}", $"{user.FirstName} {user.LastName}")
+                .Replace("{MessageContent}", $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+
+            await _emailSender.SendEmailAsync(Input.Email, "Confirm your email", messageBody);
+
             await _emailSender.SendEmailAsync(
                 Input.Email,
                 "Confirm your email",

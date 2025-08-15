@@ -35,9 +35,10 @@ else
                         <i class="ti ti-user-plus fs-6"></i>
                         Register
                     </a>
-                    <button class="btn btn-outline-primary mx-3 mt-2 d-block">
-                        <a class="dropdown-item" id="login" asp-area="Identity" asp-page="/Account/Login">Login</a>
-                    </button>
+
+                    <form id="login" asp-area="Identity" asp-page="/Account/Login">
+                        <button class="btn btn-outline-primary mx-3 mt-2 d-block" type="submit">Login</button>
+                    </form>   
                 </div>  
             </div>
     </li>
