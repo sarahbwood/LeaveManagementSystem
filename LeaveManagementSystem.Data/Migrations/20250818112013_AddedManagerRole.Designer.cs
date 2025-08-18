@@ -4,6 +4,7 @@ using LeaveManagementSystem.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LeaveManagementSystem.Web.Migrations
 {
     [DbContext(typeof(LeaveManagementSystemWebContext))]
-    partial class LeaveManagementSystemWebContextModelSnapshot : ModelSnapshot
+    [Migration("20250818112013_AddedManagerRole")]
+    partial class AddedManagerRole
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -102,7 +105,7 @@ namespace LeaveManagementSystem.Web.Migrations
                         {
                             Id = "71d6b0b7-6d31-437c-957d-736461c0041d",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "2984d871-869b-4b45-b969-aa98aadc8fe9",
+                            ConcurrencyStamp = "9e6a5686-0ed2-41da-80eb-4e37af582980",
                             DateOfBirth = new DateOnly(1970, 1, 1),
                             Email = "admin@localhost.com",
                             EmailConfirmed = true,
@@ -113,7 +116,7 @@ namespace LeaveManagementSystem.Web.Migrations
                             NormalizedUserName = "ADMIN@LOCALHOST.COM",
                             PasswordHash = "AQAAAAIAAYagAAAAEBW7ac8vdc6z8wTbTWJQ9Wch5Od0B7wNjHptnC7JM/0RVYQk4GLC0zlYVwH9Wix2EQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "c3e9b9b9-a6ab-49ba-8cd2-7a6dd094e6aa",
+                            SecurityStamp = "fcb87cfd-2b29-43a4-a448-b4014f2c2afd",
                             TwoFactorEnabled = false,
                             UserName = "admin@localhost.com"
                         });
@@ -321,12 +324,6 @@ namespace LeaveManagementSystem.Web.Migrations
                             Id = "7ae9914c-8488-4c6f-8fed-465d7e31707a",
                             Name = "Employee",
                             NormalizedName = "EMPLOYEE"
-                        },
-                        new
-                        {
-                            Id = "bf9b59c8-9131-401b-a9c8-4d5329189307",
-                            Name = "Manager",
-                            NormalizedName = "MANAGER"
                         });
                 });
 
