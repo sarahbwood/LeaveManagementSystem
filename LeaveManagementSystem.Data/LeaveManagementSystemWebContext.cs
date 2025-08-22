@@ -16,6 +16,7 @@ public class LeaveManagementSystemWebContext : IdentityDbContext<ApplicationUser
     public DbSet<Period> Periods { get; set; }
     public DbSet<LeaveRequestStatus> LeaveRequestsStatuses { get; set; }
     public DbSet<LeaveRequest> LeaveRequests { get; set; }
+    public DbSet<Department> Departments { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

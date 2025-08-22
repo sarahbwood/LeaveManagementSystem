@@ -58,5 +58,9 @@ namespace LeaveManagementSystem.Application.Services.Periods
 
             return currentPeriod;
         }
+        public async Task<bool> PeriodExists(int id)
+        {
+            return await _context.Periods.AnyAsync(e => e.Id == id);
+        }
     }
 }

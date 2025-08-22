@@ -10,5 +10,6 @@ namespace LeaveManagementSystem.Application.Services.Periods
         Task<List<PeriodReadOnlyVM>> GetAll();
         Task Remove(int id);
         Task<Period> GetCurrentPeriod();
+        Task<bool> PeriodExists(int id);
     }
 }

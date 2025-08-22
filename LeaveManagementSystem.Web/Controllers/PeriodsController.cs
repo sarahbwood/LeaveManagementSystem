@@ -7,8 +7,6 @@ namespace LeaveManagementSystem.Web.Controllers
     [Authorize(Roles = Roles.Administrator)]
     public class PeriodsController(IPeriodsService _periodsService) : Controller
     {
-        private readonly LeaveManagementSystemWebContext _context;
-
         // GET: Periods
         public async Task<IActionResult> Index()
         {
@@ -91,7 +89,7 @@ namespace LeaveManagementSystem.Web.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PeriodExists(period.Id))
+                    if (! await _periodsService.PeriodExists(period.Id))
                     {
                         return NotFound();
                     }
@@ -130,11 +128,6 @@ namespace LeaveManagementSystem.Web.Controllers
         {
             await _periodsService.Remove(id);
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool PeriodExists(int id)
-        {
-            return _context.Periods.Any(e => e.Id == id);
-        }
+        }  
     }
 }

@@ -154,6 +154,10 @@ namespace LeaveManagementSystem.Web.Areas.Identity.Pages.Account
                     {
                         await _userManager.AddToRolesAsync(user, [Roles.Employee, Roles.Supervisor]); // get both roles
                     }
+                    else if (Input.RoleName == Roles.Manager)
+                    {
+                        await _userManager.AddToRolesAsync(user, [Roles.Employee, Roles.Manager]); // get both roles
+                    }
                     else
                     {
                         await _userManager.AddToRoleAsync(user, Roles.Employee);

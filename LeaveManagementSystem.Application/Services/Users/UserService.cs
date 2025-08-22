@@ -21,5 +21,11 @@ namespace LeaveManagementSystem.Application.Services.Users
             var employees = await _userManager.GetUsersInRoleAsync(Roles.Employee);
             return employees.ToList();
         }
+
+        public async Task<List<ApplicationUser>> GetManagers()
+        {
+            var managers = await _userManager.GetUsersInRoleAsync(Roles.Manager);
+            return managers.ToList();
+        }
     }
 }

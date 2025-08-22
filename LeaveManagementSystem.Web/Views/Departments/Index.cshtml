@@ -1,0 +1,38 @@
+﻿@using LeaveManagementSystem.Application.Models.Departments
+@model DepartmentsReadOnlyListVM
+
+@{
+	ViewData["Title"] = "Departments";
+}
+
+<h1>Departments</h1>
+
+<p>
+	<a asp-action="Create" class="btn btn-primary">Create New</a>
+</p>
+
+<table class="table">
+	<thead>
+		<tr>
+			<th>@Html.DisplayNameFor(model => model.Departments[0].DepartmentName)</th>
+			<th>@Html.DisplayNameFor(model => model.Departments[0].DepartmentManagerName)</th>
+			<th></th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var dept in Model.Departments)
+		{
+			<tr>
+				<td>
+					@Html.DisplayFor(modelItem => dept.DepartmentName)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => dept.DepartmentManagerName)
+				</td>
+				<td></td>
+				<td></td>
+			</tr>
+		}
+	</tbody>
+</table>

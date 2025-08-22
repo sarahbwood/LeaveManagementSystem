@@ -1,0 +1,38 @@
+﻿@using LeaveManagementSystem.Application.Models.Departments
+@model DepartmentCreateVM
+
+@{
+	ViewData["Title"] = "Create Department";
+}
+
+<h1>Create a department</h1>
+
+<hr />
+
+<div class="row">
+	<div class="col-md-6">
+		<form asp-action="Create">
+			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+			<div class="form-group">
+				<label asp-for="DepartmentName" class="control-label"></label>
+				<input asp-for="DepartmentName" class="form-control" />
+			</div>
+			<div class="form-group">
+				<label asp-for="DepartmentManagerId" class="form-control"></label>
+				<select asp-for="DepartmentManagerId" class="form-select" asp-items="Model.DepartmentManagers"></select>
+			</div>
+			<br/>
+			<div class="form-group">
+				<input type="submit" value="Create" class="btn btn-success" />
+				<a asp-action="Index" class="btn btn-primary">Back to List</a>
+			</div>
+		</form>
+	</div>
+</div>
+
+@section Scripts{
+	@{
+		await Html.RenderPartialAsync("_ValidationScriptsPartial");
+	}
+
+}
