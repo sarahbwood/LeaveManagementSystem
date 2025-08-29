@@ -1,4 +1,5 @@
 ﻿using LeaveManagementSystem.Application.Models.LeaveAllocations;
+using LeaveManagementSystem.Application.Services.Departments;
 using LeaveManagementSystem.Application.Services.Periods;
 using LeaveManagementSystem.Application.Services.Users;
 using Microsoft.EntityFrameworkCore;
@@ -6,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LeaveManagementSystem.Application.Services.LeaveAllocations
 {
-    public class LeaveAllocationsService(LeaveManagementSystemWebContext _context, IUserService _userService, IMapper _mapper, IPeriodsService _periodsService) : ILeaveAllocationsService
+    public class LeaveAllocationsService(LeaveManagementSystemWebContext _context, IUserService _userService, IMapper _mapper, IPeriodsService _periodsService, IDepartmentsService _departmentsService) : ILeaveAllocationsService
     {
         public async Task AllocateLeave(string employeeId)
         {
@@ -47,6 +48,7 @@ namespace LeaveManagementSystem.Application.Services.LeaveAllocations
             var user = string.IsNullOrEmpty(userId) ? await _userService.GetLoggedInUser()
                 : await _userService.GetUserById(userId);
             var allocations = await GetAllocations(user.Id);
+            var department = await _departmentsService.GetDepartmentById(user.DepartmentId);
             var allocationVMList = _mapper.Map<List<LeaveAllocationVM>>(allocations);
             var leaveTypesCount = await _context.LeaveTypes.CountAsync();
 
@@ -57,6 +59,7 @@ namespace LeaveManagementSystem.Application.Services.LeaveAllocations
                 LastName = user.LastName,
                 DateOfBirth = user.DateOfBirth,
                 Email = user.Email,
+                DepartmentName = department.DepartmentName,
                 LeaveAllocations = allocationVMList,
                 IsCompletedAllocation = leaveTypesCount == allocations.Count
             };
@@ -99,6 +102,7 @@ namespace LeaveManagementSystem.Application.Services.LeaveAllocations
         {
             var users = await _userService.GetEmployees();
             var employees = _mapper.Map<List<EmployeeListVM>>(users);
+
 
             return employees;
         }

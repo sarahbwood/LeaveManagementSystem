@@ -34,12 +34,12 @@
                             </div>
                             <div class="mb-4">
                                 <label asp-for="Input.Password" class="form-label">Password</label>
-                                <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="password">
+                                <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="Password">
                                 <span asp-validation-for="Input.Password" class="text-danger"></span>
                             </div>
                             <div class="mb-4">
                                 <label asp-for="Input.ConfirmPassword" class="form-label">Confirm Password</label>
-                                <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password">
+                                <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="Password">
                                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
                             </div>
 
@@ -53,6 +53,12 @@
                                     <span asp-validation-for="Input.RoleName" class="text-danger"></span>
                                 </div>
                             }
+
+                            <div class="mb-4">
+                                <label asp-for="Input.DepartmentId" class="form-label">Department</label>
+                                <select asp-for="Input.DepartmentId" class="form-select" asp-items="Model.Departments"></select>
+                            </div>
+                          
                             <button id="registerSubmit" type="submit" class="btn btn-primary w-100 py-8 fs-4 mb-4">Register</button>
                         </form>
                     </div>

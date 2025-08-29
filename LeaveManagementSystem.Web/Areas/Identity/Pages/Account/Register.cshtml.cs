@@ -4,7 +4,10 @@
 
 using System.Text;
 using System.Text.Encodings.Web;
+using LeaveManagementSystem.Application.Models.Departments;
+using LeaveManagementSystem.Application.Services.Departments;
 using LeaveManagementSystem.Application.Services.LeaveAllocations;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
 
@@ -21,6 +24,7 @@ namespace LeaveManagementSystem.Web.Areas.Identity.Pages.Account
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
         private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly IDepartmentsService _departmentsService;
 
         public RegisterModel(
             ILeaveAllocationsService leaveAllocationsService,
@@ -30,7 +34,8 @@ namespace LeaveManagementSystem.Web.Areas.Identity.Pages.Account
             RoleManager<IdentityRole> roleManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender,
-            IWebHostEnvironment webHostEnvironment
+            IWebHostEnvironment webHostEnvironment,
+            IDepartmentsService departmentsService
             )
         {
             this._leaveAllocationsService = leaveAllocationsService;
@@ -42,6 +47,7 @@ namespace LeaveManagementSystem.Web.Areas.Identity.Pages.Account
             _logger = logger;
             _emailSender = emailSender;
             _webHostEnvironment = webHostEnvironment;
+            this._departmentsService = departmentsService;
         }
 
         /// <summary>
@@ -68,6 +74,8 @@ namespace LeaveManagementSystem.Web.Areas.Identity.Pages.Account
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
         ///     directly from your code. This API may change or be removed in future releases.
         /// </summary>
+        
+        public SelectList Departments { get; set; }
         public class InputModel
         {
             /// <summary>
@@ -114,6 +122,10 @@ namespace LeaveManagementSystem.Web.Areas.Identity.Pages.Account
 
             [Required]
             public string RoleName { get; set; }
+
+            [Display(Name = "Department")]
+            public int DepartmentId { get; set; }
+            public SelectList Departments { get; set; }
         }
 
 
@@ -127,6 +139,10 @@ namespace LeaveManagementSystem.Web.Areas.Identity.Pages.Account
                 .ToArrayAsync();
 
             RoleNames = roles;
+
+            var departmentsList = await _departmentsService.GetAllDepartments();
+            var departments = departmentsList.Departments;
+            Departments = new SelectList(departments, "Id", "DepartmentName");
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
@@ -143,6 +159,10 @@ namespace LeaveManagementSystem.Web.Areas.Identity.Pages.Account
                 user.FirstName = Input.FirstName;
                 user.LastName = Input.LastName;
                 user.DateOfBirth = Input.DateOfBirth;
+                user.DepartmentId = Input.DepartmentId;
+                user.Department = await _departmentsService.GetDepartmentById(Input.DepartmentId);
+                // add department from navigation property
+                // user.Department = 
 
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
@@ -204,6 +224,10 @@ namespace LeaveManagementSystem.Web.Areas.Identity.Pages.Account
                 .ToArrayAsync();
 
             RoleNames = roles;
+
+            var departmentsList = await _departmentsService.GetAllDepartments();
+            var departments = departmentsList.Departments;
+            Departments = new SelectList(departments, "Id", "DepartmentName");
 
             // If we got this far, something failed, redisplay form
             return Page();

@@ -50,5 +50,14 @@ namespace LeaveManagementSystem.Application.Services.Departments
             _context.Departments.Add(department);
             await _context.SaveChangesAsync();
         }
+
+        public async Task<Department> GetDepartmentById(int id)
+        {
+            var department = await _context.Departments
+                .Include(q => q.DepartmentManager)
+                .FirstOrDefaultAsync(q => q.Id == id);
+
+            return department;
+        }
     }
 }

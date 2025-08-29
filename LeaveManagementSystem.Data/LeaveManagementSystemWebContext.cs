@@ -29,17 +29,10 @@ public class LeaveManagementSystemWebContext : IdentityDbContext<ApplicationUser
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder); // this line is important to ensure the Identity tables are created correctly
-
-        // The following code works, but there is a more succint way to configure the Identity tables
-        //builder.ApplyConfiguration(new Configurations.IdentityRoleConfiguration());
-        //builder.ApplyConfiguration(new Configurations.ApplicationUserConfiguration());
-        //builder.ApplyConfiguration(new Configurations.IdentityUserRoleConfiguration());
-        //builder.ApplyConfiguration(new Configurations.LeaveRequestStatusConfiguration());
-
+        builder.Entity<Department>()
+            .HasOne(d => d.DepartmentManager)
+            .WithOne(u => u.Department) 
+            .HasForeignKey<Department>(d => d.DepartmentManagerId);
         builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly()); // Automatically apply all configurations in the current assembly - implementing IEntityTypeConfiguration<T> interface
-
-        // Customize the ASP.NET Identity model and override the defaults if needed.
-        // For example, you can rename the ASP.NET Identity table names and more.
-        // Add your customizations after calling base.OnModelCreating(builder);
     }
 }

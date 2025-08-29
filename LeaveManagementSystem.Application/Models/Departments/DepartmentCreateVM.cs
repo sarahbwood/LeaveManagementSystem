@@ -14,7 +14,6 @@ namespace LeaveManagementSystem.Application.Models.Departments
         public string DepartmentName { get; set; } = string.Empty;
         [Required]
         [Display(Name = "Department Manager")]
-
         public string? DepartmentManagerId { get; set; }
         [Required]
         public SelectList? DepartmentManagers { get; set; }

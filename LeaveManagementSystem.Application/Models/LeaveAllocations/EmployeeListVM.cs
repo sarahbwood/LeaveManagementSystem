@@ -10,5 +10,8 @@
         public string FullName => $"{FirstName} {LastName}";
         [Display(Name = "Email")]
         public string Email { get; set; } = string.Empty;
+        public int DepartmentId { get; set; }
+        [Display(Name = "Department")]
+        public string DepartmentName { get; set; } = string.Empty;
     }
 }
