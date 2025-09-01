@@ -9,6 +9,11 @@
     {
       "library": "jqueryui@1.14.1",
       "destination": "wwwroot/jqueryui/"
+    },
+    {
+      "provider": "jsdelivr",
+      "library": "@toast-ui/calendar@2.1.3",
+      "destination": "wwwroot/toast-ui/calendar/"
     }
   ]
 }

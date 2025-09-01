@@ -13,7 +13,8 @@
     <link rel="shortcut icon" type="image/png" href="~/images/logos/towa_logo.svg" /> 
     <link rel="stylesheet" href="~/lib/jqueryui/themes/flick/jquery-ui.min.css" />
     <link rel="stylesheet" href="~/lib/jqueryui/themes/flick/theme.min.css" />
-    <link rel="stylesheet" href="~/lib/sweetalert2/sweetalert2.min.css" /> 
+    <link rel="stylesheet" href="~/lib/sweetalert2/sweetalert2.min.css" />
+    <link rel="stylesheet" href="~/lib/toast-ui/calendar/dist/toastui-calendar.min.css" />
     <link rel="stylesheet" href="~/css/styles.min.css" />
 </head>
 
@@ -124,6 +125,12 @@
                                     <span class="hide-menu">Review Leave Requests</span>
                                 </a>
                             </li>
+                            <li class="sidebar-item">
+                                <a class="sidebar-link primary-hover-bg" asp-controller="LeaveCalendar" asp-action="Index" aria-expanded="false">
+                                    <iconify-icon icon="material-symbols:calendar-month-outline"></iconify-icon>
+                                    <span class="hide-menu">Leave Calendar</span>
+                                </a>
+                            </li>
                         }
 
                         @if (User.Identity.IsAuthenticated)
@@ -196,16 +203,17 @@
             </div>
         </div>
     </div>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/jqueryui/jquery-ui.min.js"></script>
     <script src="~/lib/sweetalert2/sweetalert2.all.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/toast-ui/calendar/dist/toastui-calendar.min.js"></script>
+    <script src="~/lib/simplebar/dist/simplebar.js"></script>
     <script src="~/js/sidebarmenu.js"></script>
     <script src="~/js/app.min.js"></script>
-    <script src="~/lib/simplebar/dist/simplebar.js"></script>
     <!-- solar icons -->
     <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
     @await RenderSectionAsync("Scripts", required: false) 
 </body>
-
 </html>

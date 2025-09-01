@@ -1,0 +1,45 @@
+﻿@{
+    ViewData["Title"] = "Leave Calendar";
+}
+
+<h1>Leave Calendar</h1>
+
+<div id="calendar" style="height: 800px"></div>
+
+@section Scripts {
+   <script>
+       const Calendar = tui.Calendar;
+       const calendar = new Calendar('#calendar', {
+       defaultView: 'week',
+          template: {
+            time(event) {
+            return `<span style="color: black;">${event.title}</span>`;
+        },
+            allday(event) {
+              return `<span style="color: gray;">${event.title}</span>`;
+            },
+          },
+          calendars: [
+            {
+              id: 'cal1',
+              name: 'Personal',
+              backgroundColor: '#03bd9e',
+            },
+            {
+              id: 'cal2',
+              name: 'Work',
+              backgroundColor: '#00a9ff',
+            },
+          ],
+        });
+
+       calendar.createEvents([
+        {
+          id: 'event1',
+          calendarId: 'cal2',
+          title: 'Weekly meeting',
+          start: '2025-09-02T09:00:00',
+          end: '2025-09-03T10:00:00',
+        }]);
+   </script>
+}
