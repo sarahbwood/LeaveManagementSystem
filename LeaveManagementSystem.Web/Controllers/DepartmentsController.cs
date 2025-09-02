@@ -37,7 +37,7 @@ namespace LeaveManagementSystem.Web.Controllers
         public async Task<IActionResult> Create(DepartmentCreateVM departmentCreateVM)
         {
             await _departmentsService.CreateDepartment(departmentCreateVM);
-            return View(nameof(Index));
+            return RedirectToAction(nameof(Index));
         }
 
     }

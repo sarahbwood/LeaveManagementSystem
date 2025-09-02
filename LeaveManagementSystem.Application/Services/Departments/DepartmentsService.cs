@@ -59,5 +59,16 @@ namespace LeaveManagementSystem.Application.Services.Departments
 
             return department;
         }
+
+        public async Task<ApplicationUser> GetDepartmentManager(int departmentId)
+        {
+            var managerDepartment = await _context.Departments
+                .Include(q => q.DepartmentManager)
+                .Where(q => q.Id == departmentId)
+                .FirstOrDefaultAsync();
+            var manager = managerDepartment.DepartmentManager;
+            
+            return manager;
+        }
     }
 }

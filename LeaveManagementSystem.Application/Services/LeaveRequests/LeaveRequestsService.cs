@@ -1,11 +1,14 @@
 ﻿using LeaveManagementSystem.Application.Models.LeaveAllocations;
+using LeaveManagementSystem.Application.Services.Departments;
+using LeaveManagementSystem.Application.Services.Email;
 using LeaveManagementSystem.Application.Services.LeaveAllocations;
 using LeaveManagementSystem.Application.Services.Users;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 
 namespace LeaveManagementSystem.Application.Services.LeaveRequests
 {
-    public partial class LeaveRequestsService(LeaveManagementSystemWebContext _context, IMapper _mapper, IUserService _userService, ILeaveAllocationsService _leaveAllocationsService) : ILeaveRequestsService
+    public partial class LeaveRequestsService(LeaveManagementSystemWebContext _context, IMapper _mapper, IUserService _userService, ILeaveAllocationsService _leaveAllocationsService, IEmailSender _emailSender, IDepartmentsService _departmentsService, IWebHostEnvironment _webHostEnvironment) : ILeaveRequestsService
     {
         public async Task CancelLeaveRequest(int leaveRequestId)
         {
@@ -27,7 +30,7 @@ namespace LeaveManagementSystem.Application.Services.LeaveRequests
             // get the id of the currently logged in user
             var user = await _userService.GetLoggedInUser();
             leaveRequest.EmployeeId = user.Id;
-
+    
             // set leave request status to pending - default
             leaveRequest.LeaveRequestStatusId = (int)LeaveRequestStatusEnum.Pending; // used enum
 
@@ -36,7 +39,11 @@ namespace LeaveManagementSystem.Application.Services.LeaveRequests
 
             // deduct allocated leave days from the employee's leave allocation
             await UpdateAllocationDays(leaveRequest, true);
+            // save the changes to the database
             await _context.SaveChangesAsync();
+
+            // send email to the manager regarding the new leave request
+            await EmailLeaveRequestToManager(user.DepartmentId, leaveRequest.Id);
         }
 
         public async Task<bool> DaysExceedAllocation(LeaveRequestCreateVM model)
@@ -150,6 +157,21 @@ namespace LeaveManagementSystem.Application.Services.LeaveRequests
 
             // save the changes to the database
             await _context.SaveChangesAsync();
+        }
+
+        private async Task EmailLeaveRequestToManager(int departmentId, int leaveRequestId)
+        {
+            //get manager 
+            var manager = await _departmentsService.GetDepartmentManager(departmentId);
+            
+            // get email template
+            var emailTemplatePath = Path.Combine(_webHostEnvironment.WebRootPath, "templates", "email_layout.html");
+            var emailTemplate = await File.ReadAllTextAsync(emailTemplatePath);
+            var messageBody = emailTemplate
+               .Replace("{FullName}", $"{manager.FirstName} {manager.LastName}")
+               .Replace("{MessageContent}", $"Please review leave request: {leaveRequestId}");
+
+            await _emailSender.SendEmailAsync(manager.Email, "Review Leave Request", messageBody);
         }
 
         private async Task UpdateAllocationDays(LeaveRequest leaveRequest, bool deductDays)

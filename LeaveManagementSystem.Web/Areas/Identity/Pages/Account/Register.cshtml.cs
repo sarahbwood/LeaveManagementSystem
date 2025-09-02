@@ -160,9 +160,8 @@ namespace LeaveManagementSystem.Web.Areas.Identity.Pages.Account
                 user.LastName = Input.LastName;
                 user.DateOfBirth = Input.DateOfBirth;
                 user.DepartmentId = Input.DepartmentId;
-                user.Department = await _departmentsService.GetDepartmentById(Input.DepartmentId);
+                //user.Department = await _departmentsService.GetDepartmentById(Input.DepartmentId);
                 // add department from navigation property
-                // user.Department = 
 
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
