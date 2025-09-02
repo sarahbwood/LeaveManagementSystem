@@ -161,15 +161,25 @@ namespace LeaveManagementSystem.Application.Services.LeaveRequests
 
         private async Task EmailLeaveRequestToManager(int departmentId, int leaveRequestId)
         {
-            //get manager 
+            //get manager - if employee is not a manager themselves
             var manager = await _departmentsService.GetDepartmentManager(departmentId);
-            
+
+            // get leave request
+            var leaveRequest = await GetLeaveRequestForReview(leaveRequestId); // LeaveRequestReviewVM
+
             // get email template
-            var emailTemplatePath = Path.Combine(_webHostEnvironment.WebRootPath, "templates", "email_layout.html");
+            var emailTemplatePath = Path.Combine(_webHostEnvironment.WebRootPath, "templates", "leaverequest_email_layout.html");
             var emailTemplate = await File.ReadAllTextAsync(emailTemplatePath);
             var messageBody = emailTemplate
                .Replace("{FullName}", $"{manager.FirstName} {manager.LastName}")
-               .Replace("{MessageContent}", $"Please review leave request: {leaveRequestId}");
+               .Replace("{EmployeeName}", leaveRequest.Employee.FullName)
+               .Replace("{EmployeeEmail}", leaveRequest.Employee.Email)
+               .Replace("{LeaveType}", leaveRequest.LeaveType)
+               .Replace("{StartDate}", leaveRequest.StartDate.ToString())
+               .Replace("{EndDate}", leaveRequest.EndDate.ToString())
+               .Replace("{NumberOfDays}", leaveRequest.NumberOfDays.ToString())
+               .Replace("{AdditionalComments}", leaveRequest.RequestComments);
+               
 
             await _emailSender.SendEmailAsync(manager.Email, "Review Leave Request", messageBody);
         }
