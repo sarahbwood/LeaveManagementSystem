@@ -1,4 +1,5 @@
 ﻿@page
+@using LeaveManagementSystem.Common
 @model RegisterModel
 @{
     ViewData["Title"] = "Register";
@@ -56,7 +57,7 @@
 
                             <div class="mb-4">
                                 <label asp-for="Input.DepartmentId" class="form-label">Department</label>
-                                <select asp-for="Input.DepartmentId" class="form-select" asp-items="Model.Departments"></select>
+                                <select asp-for="Input.DepartmentId" class="form-select" asp-items="Model.Departments" id="departmentDropdown"></select>
                             </div>
                           
                             <button id="registerSubmit" type="submit" class="btn btn-primary w-100 py-8 fs-4 mb-4">Register</button>
@@ -71,6 +72,21 @@
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 
+    <script>
+        $("input[type='radio']").click(function(){
+			const managerRole = "@LeaveManagementSystem.Common.Static.Roles.Manager";
+            var roleName = $(this).val();
+            console.log(`Clicked ${roleName}`);
+
+            if (roleName == managerRole) {
+                console.log(true);
+                $("#departmentDropdown").prop("disabled", true);
+            } else{
+                console.log(false);
+                 $("#departmentDropdown").prop("disabled", false);
+            }
+        });
+    </script>
     @* <script>
         $(function(){
             $("#Input_DateOfBirth").datepicker({
