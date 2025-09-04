@@ -169,11 +169,7 @@ namespace LeaveManagementSystem.Web.Areas.Identity.Pages.Account
                 {
                     _logger.LogInformation("User created a new account with password.");
 
-                    if (Input.RoleName == Roles.Supervisor)
-                    {
-                        await _userManager.AddToRolesAsync(user, [Roles.Employee, Roles.Supervisor]); // get both roles
-                    }
-                    else if (Input.RoleName == Roles.Manager)
+                    if (Input.RoleName == Roles.Manager)
                     {
                         await _userManager.AddToRolesAsync(user, [Roles.Employee, Roles.Manager]); // get both roles
                     }
