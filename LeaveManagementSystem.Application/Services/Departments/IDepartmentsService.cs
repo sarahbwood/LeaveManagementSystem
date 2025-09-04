@@ -8,8 +8,8 @@ namespace LeaveManagementSystem.Application.Services.Departments
         Task<DepartmentsReadOnlyListVM> GetAllDepartments();
         Task<List<EmployeeListVM>> GetManagers();
         Task CreateDepartment(DepartmentCreateVM departmentCreateVM);
-        Task <Department> GetDepartmentById(int id);
-        Task <ApplicationUser> GetDepartmentManager(int departmentId);
+        Task <Department> GetDepartmentById(int? id);
+        Task <ApplicationUser> GetDepartmentManager(int? departmentId);
 
     }
 }

@@ -17,9 +17,9 @@ builder.Host.UseSerilog((ctx, config) =>
 // Add authorization policies
 builder.Services.AddAuthorization(options =>
 {
-    options.AddPolicy("AdminSupervisorOnly", policy =>
+    options.AddPolicy("AdminManagerOnly", policy =>
     {
-        policy.RequireRole(Roles.Administrator, Roles.Supervisor); // Admin OR Supervisor
+        policy.RequireRole(Roles.Administrator, Roles.Manager); // Admin OR Manager
     });
 });  
 

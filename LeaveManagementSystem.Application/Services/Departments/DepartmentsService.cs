@@ -51,7 +51,7 @@ namespace LeaveManagementSystem.Application.Services.Departments
             await _context.SaveChangesAsync();
         }
 
-        public async Task<Department> GetDepartmentById(int id)
+        public async Task<Department> GetDepartmentById(int? id)
         {
             var department = await _context.Departments
                 .Include(q => q.DepartmentManager)
@@ -60,7 +60,7 @@ namespace LeaveManagementSystem.Application.Services.Departments
             return department;
         }
 
-        public async Task<ApplicationUser> GetDepartmentManager(int departmentId)
+        public async Task<ApplicationUser> GetDepartmentManager(int? departmentId)
         {
             var managerDepartment = await _context.Departments
                 .Include(q => q.DepartmentManager)

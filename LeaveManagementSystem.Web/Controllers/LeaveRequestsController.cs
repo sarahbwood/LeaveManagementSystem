@@ -68,8 +68,8 @@ namespace LeaveManagementSystem.Web.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // Allow admin/supervisor to view all leave requests
-        [Authorize(Policy = "AdminSupervisorOnly")]
+        // Allow admin/manager to view all leave requests
+        [Authorize(Policy = "AdminManagerOnly")]
         public async Task<IActionResult> ListRequests()
         {
             // Logic to get all leave requests

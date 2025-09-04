@@ -159,7 +159,7 @@ namespace LeaveManagementSystem.Application.Services.LeaveRequests
             await _context.SaveChangesAsync();
         }
 
-        private async Task EmailLeaveRequestToManager(int departmentId, int leaveRequestId)
+        private async Task EmailLeaveRequestToManager(int? departmentId, int leaveRequestId)
         {
             //get manager - if employee is not a manager themselves
             var manager = await _departmentsService.GetDepartmentManager(departmentId);
