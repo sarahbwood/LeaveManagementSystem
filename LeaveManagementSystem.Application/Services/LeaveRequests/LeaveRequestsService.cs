@@ -3,6 +3,7 @@ using LeaveManagementSystem.Application.Services.Departments;
 using LeaveManagementSystem.Application.Services.Email;
 using LeaveManagementSystem.Application.Services.LeaveAllocations;
 using LeaveManagementSystem.Application.Services.Users;
+using LeaveManagementSystem.Data;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 
@@ -157,6 +158,11 @@ namespace LeaveManagementSystem.Application.Services.LeaveRequests
 
             // save the changes to the database
             await _context.SaveChangesAsync();
+
+            // send email to the employee regarding the status of their leave request
+            await EmailLeaveRequestStatusToEmployee(leaveRequestId);
+
+            // if approved - send email to management
         }
 
         private async Task EmailLeaveRequestToManager(int? departmentId, int leaveRequestId)
@@ -182,6 +188,25 @@ namespace LeaveManagementSystem.Application.Services.LeaveRequests
                
 
             await _emailSender.SendEmailAsync(manager.Email, "Review Leave Request", messageBody);
+        }
+
+        private async Task EmailLeaveRequestStatusToEmployee(int leaveRequestId)
+        {
+            // get leave request
+            var leaveRequest = await GetLeaveRequestForReview(leaveRequestId); // LeaveRequestReviewVM
+
+            // get email template
+            var emailTemplatePath = Path.Combine(_webHostEnvironment.WebRootPath, "templates", "leaverequest_status_email_layout.html");
+            var emailTemplate = await File.ReadAllTextAsync(emailTemplatePath);
+            var messageBody = emailTemplate
+               .Replace("{Status}", leaveRequest.LeaveRequestStatus.ToString().ToLower())
+               .Replace("{FullName}", leaveRequest.Employee.FullName)
+               .Replace("{LeaveType}", leaveRequest.LeaveType)
+               .Replace("{StartDate}", leaveRequest.StartDate.ToString())
+               .Replace("{EndDate}", leaveRequest.EndDate.ToString())
+               .Replace("{NumberOfDays}", leaveRequest.NumberOfDays.ToString());
+
+            await _emailSender.SendEmailAsync(leaveRequest.Employee.Email, "Leave Request Status", messageBody);
         }
 
         private async Task UpdateAllocationDays(LeaveRequest leaveRequest, bool deductDays)
