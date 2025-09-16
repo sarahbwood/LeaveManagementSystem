@@ -51,11 +51,6 @@ namespace LeaveManagementSystem.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditAllocation(LeaveAllocationEditVM leaveAllocationEditVM)
         {
-            if (await _leaveTypesService.DaysExceedMaximum(leaveAllocationEditVM.LeaveType.LeaveTypeId, leaveAllocationEditVM.NumberOfDays))
-            {
-                ModelState.AddModelError(nameof(leaveAllocationEditVM.NumberOfDays), "Number of days exceeds maximum allowed for this leave type.");
-            }
-
             if (ModelState.IsValid)
             {
                 await _leaveAllocationsService.EditAllocation(leaveAllocationEditVM);

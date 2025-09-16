@@ -13,16 +13,7 @@ namespace LeaveManagementSystem.Application.Services.LeaveTypes
         public async Task<List<LeaveTypeReadOnlyVM>> GetAll()
         {
             var data = await _context.LeaveTypes.ToListAsync(); // SELECT * FROM LeaveTypes
-            return _mapper.Map<List<LeaveTypeReadOnlyVM>>(data); // Convert to view model using AutoMapper
-
-
-            // convert the data model to a view model - Manually
-            //var viewData = data.Select(q => new IndexVM
-            //{
-            //    LeaveTypeId = q.LeaveTypeId,
-            //    LeaveTypeName = q.LeaveTypeName,
-            //    NumberOfDays = q.NumberOfDays,
-            //});
+            return _mapper.Map<List<LeaveTypeReadOnlyVM>>(data); // Convert to view model using 
         }
 
         // Method to get specific leave type by ID
@@ -64,7 +55,7 @@ namespace LeaveManagementSystem.Application.Services.LeaveTypes
 
         public async Task Create(LeaveTypeCreateVM model)
         {
-            _logger.LogInformation("Creating new Leave Type: {leaveTypeName} - {numberOfDays} day(s)", model.LeaveTypeName, model.NumberOfDays);
+            _logger.LogInformation("Creating new Leave Type: {leaveTypeName}", model.LeaveTypeName);
             var leaveType = _mapper.Map<LeaveType>(model);
             _context.LeaveTypes.Add(leaveType);
             await _context.SaveChangesAsync();
@@ -90,13 +81,6 @@ namespace LeaveManagementSystem.Application.Services.LeaveTypes
                 .Equals(leaveTypeEdit.LeaveTypeName.ToLower())
                 && q.LeaveTypeId != leaveTypeEdit.LeaveTypeId
             );
-        }
-
-        public async Task<bool> DaysExceedMaximum(int leaveTypeId, int numDays)
-        {
-            var leaveType = await _context.LeaveTypes
-                .FindAsync(leaveTypeId);
-            return leaveType.NumberOfDays < numDays;
         }
     }
 }

@@ -27,7 +27,7 @@ namespace LeaveManagementSystem.Application.Services.LeaveAllocations
             // for each leave type, allocate leave for the employee
             foreach (var leaveType in leaveTypes)
             {
-                var accrualRate = decimal.Divide(leaveType.NumberOfDays, 12);
+                var accrualRate = 1.0;
                 var leaveAllocation = new LeaveAllocation
                 {
                     EmployeeId = employeeId,

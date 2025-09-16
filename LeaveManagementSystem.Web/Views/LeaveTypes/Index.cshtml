@@ -16,9 +16,6 @@
             <th>
                 @Html.DisplayNameFor(model => model.LeaveTypeName)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NumberOfDays)
-            </th>
             <th></th>
         </tr>
     </thead>
@@ -27,9 +24,6 @@
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.LeaveTypeName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NumberOfDays)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.LeaveTypeId" class="btn btn-warning">Edit</a> 
