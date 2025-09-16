@@ -38,13 +38,6 @@ namespace LeaveManagementSystem.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(LeaveRequestCreateVM model) // view model
         {
-            // ensure tha the number of days does not exceed the maximum allowed for the leave type / what the employee has available 
-            if (await _leaveRequestsService.DaysExceedAllocation(model))
-            {
-                ModelState.AddModelError(string.Empty, "You have exceeded your allocation.");
-                ModelState.AddModelError(nameof(model.EndDate), "The number of days requested is invalid.");
-            }
-
             if (ModelState.IsValid)
             {
                 await _leaveRequestsService.CreateLeaveRequest(model);

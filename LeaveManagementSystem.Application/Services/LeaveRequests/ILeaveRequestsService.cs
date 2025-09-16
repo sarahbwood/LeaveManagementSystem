@@ -8,7 +8,6 @@
         Task CancelLeaveRequest(int leaveRequestId);
         Task<LeaveRequestReviewVM> GetLeaveRequestForReview(int leaveRequestId);
         Task ReviewLeaveRequest(int leaveRequestId, bool isApproved);
-        Task<bool> DaysExceedAllocation(LeaveRequestCreateVM model);
 
     }
 }

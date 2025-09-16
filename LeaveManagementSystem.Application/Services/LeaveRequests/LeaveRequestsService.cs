@@ -17,9 +17,6 @@ namespace LeaveManagementSystem.Application.Services.LeaveRequests
 
             leaveRequest.LeaveRequestStatusId = (int)LeaveRequestStatusEnum.Cancelled; // EF Core will track the change
 
-            // reallocate the leave days back to the employee's leave allocation
-            await UpdateAllocationDays(leaveRequest, false); // pass false to add the days back to the allocation
-
             // save the changes to the database
             await _context.SaveChangesAsync();
         }
@@ -38,23 +35,11 @@ namespace LeaveManagementSystem.Application.Services.LeaveRequests
             // save the leave request to the database
             _context.LeaveRequests.Add(leaveRequest);
 
-            // deduct allocated leave days from the employee's leave allocation
-            await UpdateAllocationDays(leaveRequest, true);
             // save the changes to the database
             await _context.SaveChangesAsync();
 
             // send email to the manager regarding the new leave request
             await EmailLeaveRequestToManager(user.DepartmentId, leaveRequest.Id);
-        }
-
-        public async Task<bool> DaysExceedAllocation(LeaveRequestCreateVM model)
-        {
-            var numberOfDays = model.EndDate.DayNumber - model.StartDate.DayNumber;
-            var user = await _userService.GetLoggedInUser();
-
-            var numberOfDaysAllocated = await _leaveAllocationsService.GetCurrentAllocation(model.LeaveTypeId, user.Id);
-
-            return numberOfDaysAllocated.NumberOfDays < numberOfDays;
         }
 
         public async Task<EmployeeLeaveRequestListVM> GetAllLeaveRequests()
@@ -150,18 +135,13 @@ namespace LeaveManagementSystem.Application.Services.LeaveRequests
                 ? (int)LeaveRequestStatusEnum.Approved
                 : (int)LeaveRequestStatusEnum.Declined;
 
-            // if declined , reallocate the leave days back to the employee's leave allocation
-            if (!isApproved)
-            {
-                await UpdateAllocationDays(leaveRequest, false); // pass false to add the days back to the allocation
-            }
-
             // save the changes to the database
             await _context.SaveChangesAsync();
 
             // send email to the employee regarding the status of their leave request
             await EmailLeaveRequestStatusToEmployee(leaveRequestId);
 
+            // TODO
             // if approved - send email to management
         }
 
@@ -207,28 +187,6 @@ namespace LeaveManagementSystem.Application.Services.LeaveRequests
                .Replace("{NumberOfDays}", leaveRequest.NumberOfDays.ToString());
 
             await _emailSender.SendEmailAsync(leaveRequest.Employee.Email, "Leave Request Status", messageBody);
-        }
-
-        private async Task UpdateAllocationDays(LeaveRequest leaveRequest, bool deductDays)
-        {
-            var allocation = await _leaveAllocationsService.GetCurrentAllocation(leaveRequest.LeaveTypeId, leaveRequest.EmployeeId);
-            var numberOfDays = CalculateDays(leaveRequest.StartDate, leaveRequest.EndDate);
-
-            if (deductDays)
-            {
-                allocation.NumberOfDays -= numberOfDays;
-            }
-            else
-            {
-                allocation.NumberOfDays += numberOfDays;
-            }
-
-            _context.Entry(allocation).State = EntityState.Modified; // mark the allocation as modified
-        }
-
-        private int CalculateDays(DateOnly startDate, DateOnly endDate)
-        {
-            return endDate.DayNumber - startDate.DayNumber;
         }
     }
 }
