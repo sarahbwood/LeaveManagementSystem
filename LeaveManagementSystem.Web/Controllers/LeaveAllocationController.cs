@@ -20,50 +20,5 @@ namespace LeaveManagementSystem.Web.Controllers
             var employeeVM = await _leaveAllocationsService.GetEmployeeAllocations(userId);
             return View(employeeVM);
         }
-
-        [Authorize(Roles = Roles.Administrator)]
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AllocateLeave(string? id)
-        {
-            await _leaveAllocationsService.AllocateLeave(id);
-            return RedirectToAction(nameof(Details), new { userId = id });
-        }
-
-        [Authorize(Roles = Roles.Administrator)]
-        public async Task<IActionResult> EditAllocation(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var leaveAllocation = await _leaveAllocationsService.GetEmployeeAllocation(id.Value);
-            if (leaveAllocation == null)
-            {
-                return NotFound();
-            }
-
-            return View(leaveAllocation);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditAllocation(LeaveAllocationEditVM leaveAllocationEditVM)
-        {
-            if (ModelState.IsValid)
-            {
-                await _leaveAllocationsService.EditAllocation(leaveAllocationEditVM);
-                return RedirectToAction(nameof(Details), new { userId = leaveAllocationEditVM.Employee.Id });
-
-
-            }
-
-            var days = leaveAllocationEditVM.NumberOfDays;
-            leaveAllocationEditVM = await _leaveAllocationsService.GetEmployeeAllocation(leaveAllocationEditVM.Id); // Re-fetch the allocation to ensure that the view model isn't missing any data
-            leaveAllocationEditVM.NumberOfDays = days; // Restore user selected number of days to the view model
-
-            return View(leaveAllocationEditVM);
-        }
     }
 }

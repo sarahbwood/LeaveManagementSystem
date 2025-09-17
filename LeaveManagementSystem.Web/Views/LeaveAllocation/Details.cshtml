@@ -2,13 +2,12 @@
 @model EmployeeAllocationVM  
 
 @{
-    ViewData["Title"] = "View Allocations";
+    ViewData["Title"] = "View Employee Details";
     var isAdmin = User.IsInRole(Roles.Administrator);
 	var isEmployee = User.IsInRole(Roles.Employee);
-    string message = isAdmin ? "There are no allocations." : "You have no allocations. Please contact your administrator.";
 }  
 
-<h1>View Allocations for @Model.FirstName @Model.LastName</h1>  
+<h1>Details for @Model.FirstName @Model.LastName</h1>  
 
 @if (isAdmin)
 {
@@ -58,58 +57,3 @@
     </dl>  
     <hr />  
 </div>  
-
-@if (isAdmin && !Model.IsCompletedAllocation)
-{
-   <form asp-action="AllocateLeave">
-    <input type="hidden" asp-for="@Model.Id" />
-    <input type="submit" value="Allocate Leave" class="btn btn-warning" />
-   </form>
-   <br />
-}
-@if (Model.LeaveAllocations.Any())
-{
-<div class="card">  
-    <div class="card-header">  
-        <h4><strong>Leave Allocations for period @Model.LeaveAllocations.First().Period.Name</strong></h4>  
-    </div>  
-    <ul class="list-group list-group-flush">  
-        <li class="list-group-item">  
-            <div class="row">  
-                <div class="col"><strong>Leave Name</strong></div>  
-                <div class="col"><strong>Original Allocation</strong></div>  
-                <div class="col"><strong>Current Allocation</strong></div>  
-                <div class="col"></div>  
-            </div>  
-        </li>  
-        @foreach (var allocation in Model.LeaveAllocations)  
-        {  
-            <li class="list-group-item">  
-                <div class="row">  
-                    <div class="col">@allocation.LeaveType.LeaveTypeName</div>  
-                    <div class="col">  
-                        <span class="badge rounded-pill text-bg-primary">@allocation.NumberOfDays</span>  
-                    </div>  
-                    <div class="col">  
-                        <span class="badge rounded-pill text-bg-warning">@allocation.NumberOfDays</span>  
-                    </div>
-                    <div class="col">
-                        @if (isAdmin)
-                        {
-                            <a class="mb-2 btn btn-warning" asp-action="EditAllocation" asp-route-id="@allocation.Id">Edit Allocation</a>
-                        }
-                        <a asp-controller="LeaveRequests" asp-action="Create" asp-route-leaveTypeId="@allocation.LeaveType.LeaveTypeId" class="btn btn-success">Request Leave</a>
-                    </div>
-                </div>  
-            </li>  
-        }  
-    </ul>  
-    </div>
-}
-else
-{
-    <div class="alert alert-warning" role="alert">
-        <h2>@message</h2>
-    </div>
-}
-

@@ -33,23 +33,6 @@ namespace LeaveManagementSystem.Application.Services.Periods
                 await _context.SaveChangesAsync();
             }
         }
-
-        public async Task Edit(PeriodEditVM model)
-        {
-            // Map the view model to the data model
-            var period = _mapper.Map<Period>(model);
-            _context.Periods.Update(period);
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task Create(PeriodCreateVM model)
-        {
-            // Map the view model to the data model
-            var period = _mapper.Map<Period>(model);
-            _context.Periods.Add(period);
-            await _context.SaveChangesAsync();
-        }
-
         public async Task<Period> GetCurrentPeriod()
         {
             var currentYear = DateTime.Now.Year;

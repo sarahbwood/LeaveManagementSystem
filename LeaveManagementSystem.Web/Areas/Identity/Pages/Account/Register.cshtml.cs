@@ -179,7 +179,6 @@ namespace LeaveManagementSystem.Web.Areas.Identity.Pages.Account
                     }
 
                     var userId = await _userManager.GetUserIdAsync(user);
-                    await _leaveAllocationsService.AllocateLeave(userId); // might want to only do this after email confirmation
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                     var callbackUrl = Url.Page(
