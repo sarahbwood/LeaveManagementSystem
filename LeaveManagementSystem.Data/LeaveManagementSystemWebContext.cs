@@ -13,7 +13,6 @@ public class LeaveManagementSystemWebContext : IdentityDbContext<ApplicationUser
     // Db<type> tableName
     public DbSet<LeaveType> LeaveTypes { get; set; }
     public DbSet<LeaveAllocation> LeaveAllocations { get; set; }
-    public DbSet<Period> Periods { get; set; }
     public DbSet<LeaveRequestStatus> LeaveRequestsStatuses { get; set; }
     public DbSet<LeaveRequest> LeaveRequests { get; set; }
     public DbSet<Department> Departments { get; set; }
