@@ -14,4 +14,8 @@
     <ProjectReference Include="..\LeaveManagementSystem.Data\LeaveManagementSystem.Data.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Services\Periods\" />
+  </ItemGroup>
+
 </Project>

@@ -9,7 +9,6 @@ using LeaveManagementSystem.Application.Services.Email;
 using LeaveManagementSystem.Application.Services.LeaveAllocations;
 using LeaveManagementSystem.Application.Services.LeaveRequests;
 using LeaveManagementSystem.Application.Services.LeaveTypes;
-using LeaveManagementSystem.Application.Services.Periods;
 using LeaveManagementSystem.Application.Services.Users;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -23,7 +22,6 @@ namespace LeaveManagementSystem.Application
             services.AddScoped<ILeaveTypesService, LeaveTypesService>();
             services.AddScoped<ILeaveAllocationsService, LeaveAllocationsService>();
             services.AddScoped<ILeaveRequestsService, LeaveRequestsService>();
-            services.AddScoped<IPeriodsService, PeriodsService>();
             services.AddScoped<IDepartmentsService, DepartmentsService>();
             services.AddScoped<IUserService, UserService>();
             services.AddTransient<IEmailSender, EmailSender>();

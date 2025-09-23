@@ -1,13 +1,12 @@
 ﻿using LeaveManagementSystem.Application.Models.LeaveAllocations;
 using LeaveManagementSystem.Application.Services.Departments;
-using LeaveManagementSystem.Application.Services.Periods;
 using LeaveManagementSystem.Application.Services.Users;
 using Microsoft.EntityFrameworkCore;
 
 
 namespace LeaveManagementSystem.Application.Services.LeaveAllocations
 {
-    public class LeaveAllocationsService(LeaveManagementSystemWebContext _context, IUserService _userService, IMapper _mapper, IPeriodsService _periodsService, IDepartmentsService _departmentsService) : ILeaveAllocationsService
+    public class LeaveAllocationsService(LeaveManagementSystemWebContext _context, IUserService _userService, IMapper _mapper, IDepartmentsService _departmentsService) : ILeaveAllocationsService
     {
         public async Task<EmployeeAllocationVM> GetEmployeeAllocations(string? userId)
         {

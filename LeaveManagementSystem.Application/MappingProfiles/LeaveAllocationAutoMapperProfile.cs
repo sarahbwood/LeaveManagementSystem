@@ -9,8 +9,6 @@ namespace LeaveManagementSystem.Application.MappingProfiles
         {
             CreateMap<ApplicationUser, EmployeeListVM>();
             CreateMap<Period, PeriodReadOnlyVM>();
-            CreateMap<Period, PeriodCreateVM>().ReverseMap();
-
         }
 
     }
