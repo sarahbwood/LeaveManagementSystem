@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using LeaveManagementSystem.Application.Services.Calendar;
 using LeaveManagementSystem.Application.Services.Departments;
 using LeaveManagementSystem.Application.Services.Email;
 using LeaveManagementSystem.Application.Services.LeaveAllocations;
@@ -24,6 +25,8 @@ namespace LeaveManagementSystem.Application
             services.AddScoped<ILeaveRequestsService, LeaveRequestsService>();
             services.AddScoped<IDepartmentsService, DepartmentsService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IEmailService, EmailService>();
+            services.AddScoped<ICalendarService, CalendarService>();    
             services.AddTransient<IEmailSender, EmailSender>();
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             return services;

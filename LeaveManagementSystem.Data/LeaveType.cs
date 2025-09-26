@@ -8,6 +8,5 @@ namespace LeaveManagementSystem.Data
         [Column(TypeName = "nvarchar(150)")]
         public string LeaveTypeName { get; set; }
        
-        public List<LeaveAllocation>? LeaveAllocations { get; set; } // Navigation property for related LeaveAllocations
     }
 }

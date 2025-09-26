@@ -16,12 +16,6 @@ namespace LeaveManagementSystem.Data.Configurations
                 },
                 new IdentityRole
                 {
-                    Id = "0fbeaf78-3c5d-4926-86d9-63aa09f30fc3",
-                    Name = "Supervisor",
-                    NormalizedName = "SUPERVISOR"
-                },
-                new IdentityRole
-                {
                     Id = "7ae9914c-8488-4c6f-8fed-465d7e31707a",
                     Name = "Employee",
                     NormalizedName = "EMPLOYEE"
