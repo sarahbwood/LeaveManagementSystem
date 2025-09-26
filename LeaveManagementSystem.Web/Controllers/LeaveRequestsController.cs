@@ -70,7 +70,8 @@ namespace LeaveManagementSystem.Web.Controllers
             return View(model);
         }
 
-        // Allow admin/supervisor to review leave requests
+        // Allow admin/manager to review leave requests
+        [Authorize(Policy = "AdminManagerOnly")]
         public async Task<IActionResult> Review(int id)
         {
             // Logic to get a specific leave request for review
@@ -78,9 +79,10 @@ namespace LeaveManagementSystem.Web.Controllers
             return View(model);
         }
 
-        // Allow admin/supervisor to submit their review, i.e post request
+        // Allow admin/manager to submit their review, i.e post request
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "AdminManagerOnly")]
         public async Task<IActionResult> Review(int id, bool approved)
         {
             await _leaveRequestsService.ReviewLeaveRequest(id, approved);

@@ -1,5 +1,5 @@
 ﻿using LeaveManagementSystem.Application.Models.Departments;
-using LeaveManagementSystem.Application.Models.LeaveAllocations;
+using LeaveManagementSystem.Application.Models.Employees;
 
 namespace LeaveManagementSystem.Application.Services.Departments
 {

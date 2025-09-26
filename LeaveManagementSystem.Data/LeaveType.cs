@@ -7,6 +7,5 @@ namespace LeaveManagementSystem.Data
         public int LeaveTypeId { get; set; }
         [Column(TypeName = "nvarchar(150)")]
         public string LeaveTypeName { get; set; }
-       
     }
 }

@@ -1,8 +1,8 @@
 ﻿namespace LeaveManagementSystem.Application.MappingProfiles
 {
-    public class LeaveRequestAutomapperProfile : Profile
+    public class LeaveRequestAutoMapperProfile : Profile
     {
-        public LeaveRequestAutomapperProfile()
+        public LeaveRequestAutoMapperProfile()
         {
             CreateMap<LeaveRequestCreateVM, LeaveRequest>();
         }

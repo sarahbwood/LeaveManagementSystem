@@ -2,9 +2,9 @@
 
 namespace LeaveManagementSystem.Application.MappingProfiles
 {
-    public class LeaveTypeAutomapperProfile : Profile
+    public class LeaveTypeAutoMapperProfile : Profile
     {
-        public LeaveTypeAutomapperProfile()
+        public LeaveTypeAutoMapperProfile()
         {
             CreateMap<LeaveType, LeaveTypeReadOnlyVM>();
 

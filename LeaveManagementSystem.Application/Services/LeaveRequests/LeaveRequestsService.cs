@@ -1,4 +1,4 @@
-﻿using LeaveManagementSystem.Application.Models.LeaveAllocations;
+﻿using LeaveManagementSystem.Application.Models.Employees;
 using LeaveManagementSystem.Application.Services.Calendar;
 using LeaveManagementSystem.Application.Services.Departments;
 using LeaveManagementSystem.Application.Services.Email;
@@ -142,11 +142,12 @@ namespace LeaveManagementSystem.Application.Services.LeaveRequests
             // send email to the employee regarding the status of their leave request
             await EmailLeaveRequestStatusToEmployee(leaveRequestId);
 
-            // TODO
-            // if approved - send email to management
             if (isApproved)
             {
                 await NotifyManagementAboutLeave(leaveRequestId);
+
+                // TODO
+                // add to calendar view
             }
         }
 

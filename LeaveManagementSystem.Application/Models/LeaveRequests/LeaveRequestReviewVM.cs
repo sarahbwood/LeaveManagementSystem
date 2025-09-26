@@ -1,4 +1,4 @@
-﻿using LeaveManagementSystem.Application.Models.LeaveAllocations;
+﻿using LeaveManagementSystem.Application.Models.Employees;
 
 namespace LeaveManagementSystem.Application.Models.LeaveRequests
 {
