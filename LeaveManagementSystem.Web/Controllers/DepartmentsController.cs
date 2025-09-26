@@ -8,7 +8,7 @@ namespace LeaveManagementSystem.Web.Controllers
     public class DepartmentsController(IDepartmentsService _departmentsService) : Controller
     {
         // list all departments
-        [Authorize(Roles = Roles.Administrator)] // TODO : Update to use policy-based authorization
+        [Authorize(Policy = "AdminManagerOnly")] 
         public async Task<IActionResult> Index()
         {
             var model = await _departmentsService.GetAllDepartments();
@@ -16,7 +16,7 @@ namespace LeaveManagementSystem.Web.Controllers
         }
 
        // create a new department
-       [Authorize(Roles = Roles.Administrator)] // TODO : Update to use policy-based authorization
+       [Authorize(Roles = Roles.Administrator)] 
 
         public async Task<IActionResult> Create()
         {
@@ -33,6 +33,7 @@ namespace LeaveManagementSystem.Web.Controllers
         
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = Roles.Administrator)]
 
         public async Task<IActionResult> Create(DepartmentCreateVM departmentCreateVM)
         {

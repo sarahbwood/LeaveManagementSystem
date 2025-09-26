@@ -8,7 +8,7 @@ namespace LeaveManagementSystem.Web.Controllers
 
     public class EmployeesController(IEmployeesService _employeesService, ILeaveTypesService _leaveTypesService) : Controller
     {
-        [Authorize(Roles = Roles.Administrator)]
+        [Authorize(Policy = "AdminManagerOnly")]
         public async Task<IActionResult> Index()
         {
             var employees = await _employeesService.GetEmployees();

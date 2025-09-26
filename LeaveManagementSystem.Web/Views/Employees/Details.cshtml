@@ -3,7 +3,7 @@
 
 @{
     ViewData["Title"] = "View Employee Details";
-    var isAdmin = User.IsInRole(Roles.Administrator);
+    var isAdmin = (User.IsInRole(Roles.Administrator) || User.IsInRole(Roles.Manager));
 	var isEmployee = User.IsInRole(Roles.Employee);
 }  
 
@@ -12,14 +12,14 @@
 @if (isAdmin)
 {
     <a asp-action="Index" class="btn btn-primary">Back to List</a>
-    <br />
 }
 
 @if (isEmployee)
 {
-    <a asp-controller="LeaveRequests" asp-action="Index" class="btn btn-primary">View Request History</a>
-    <br />
+    <a asp-controller="LeaveRequests" asp-action="Index" class="btn btn-success">View Request History</a>
 }
+
+<br/>
 
 <div>  
     <hr />  

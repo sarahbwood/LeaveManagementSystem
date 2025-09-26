@@ -7,9 +7,12 @@
 
 <h1>Departments</h1>
 
-<p>
-	<a asp-action="Create" class="btn btn-primary">Create New</a>
-</p>
+@if (User.IsInRole(Roles.Administrator))
+{
+	<p>
+		<a asp-action="Create" class="btn btn-primary">Create New</a>
+	</p>
+}
 
 <table class="table">
 	<thead>

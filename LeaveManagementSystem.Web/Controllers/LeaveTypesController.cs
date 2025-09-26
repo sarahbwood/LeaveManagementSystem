@@ -4,12 +4,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LeaveManagementSystem.Web.Controllers
 {
-    [Authorize(Roles = Roles.Administrator)]
+    [Authorize(Policy = "AdminManagerOnly")]
     public class LeaveTypesController(ILeaveTypesService _leaveTypesService, ILogger<LeaveTypesController> _logger) : Controller
     {
         private const string NameExistsValidationMessage = "This leave type already exists in the database.";
 
-        // GET: LeaveTypes
+        // GET: LeaveTypes  
         public async Task<IActionResult> Index()
         {
             _logger.LogInformation("Loading Leave Types");
@@ -36,6 +36,7 @@ namespace LeaveManagementSystem.Web.Controllers
         }
 
         // GET: LeaveTypes/Create
+        [Authorize(Roles = Roles.Administrator)]
         public IActionResult Create()
         {
             return View();
@@ -64,6 +65,8 @@ namespace LeaveManagementSystem.Web.Controllers
         }
 
         // GET: LeaveTypes/Edit/5
+        [Authorize(Roles = Roles.Administrator)]
+
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -86,6 +89,8 @@ namespace LeaveManagementSystem.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = Roles.Administrator)]
+
         public async Task<IActionResult> Edit(int id, LeaveTypeEditVM leaveTypeEdit)
         {
             if (id != leaveTypeEdit.LeaveTypeId)
@@ -124,6 +129,7 @@ namespace LeaveManagementSystem.Web.Controllers
 
 
         // GET: LeaveTypes/Delete/5
+        [Authorize(Roles = Roles.Administrator)]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -144,6 +150,8 @@ namespace LeaveManagementSystem.Web.Controllers
         // POST: LeaveTypes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = Roles.Administrator)]
+
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             await _leaveTypesService.Remove(id);

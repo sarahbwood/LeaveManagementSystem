@@ -19,6 +19,10 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.LeaveTypeId" class="btn btn-warning">Edit</a> 
+    @if (User.IsInRole(Roles.Administrator))
+    {
+        <a asp-action="Edit" asp-route-id="@Model?.LeaveTypeId" class="btn btn-warning">Edit</a>
+
+    }
     <a asp-action="Index" class="btn btn-primary">Back to List</a>
 </div>
