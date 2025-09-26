@@ -6,7 +6,7 @@ namespace LeaveManagementSystem.Web.Controllers
 {
     [Authorize]
 
-    public class LeaveAllocationController(IEmployeesService _employeesService, ILeaveTypesService _leaveTypesService) : Controller
+    public class EmployeesController(IEmployeesService _employeesService, ILeaveTypesService _leaveTypesService) : Controller
     {
         [Authorize(Roles = Roles.Administrator)]
         public async Task<IActionResult> Index()
