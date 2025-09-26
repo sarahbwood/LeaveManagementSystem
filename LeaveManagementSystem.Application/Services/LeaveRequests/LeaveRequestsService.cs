@@ -2,7 +2,7 @@
 using LeaveManagementSystem.Application.Services.Calendar;
 using LeaveManagementSystem.Application.Services.Departments;
 using LeaveManagementSystem.Application.Services.Email;
-using LeaveManagementSystem.Application.Services.LeaveAllocations;
+using LeaveManagementSystem.Application.Services.Employees;
 using LeaveManagementSystem.Application.Services.Users;
 using LeaveManagementSystem.Data;
 using Microsoft.AspNetCore.Hosting;
@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LeaveManagementSystem.Application.Services.LeaveRequests
 {
-    public partial class LeaveRequestsService(LeaveManagementSystemWebContext _context, IMapper _mapper, IUserService _userService, ILeaveAllocationsService _leaveAllocationsService, IEmailSender _emailSender, IDepartmentsService _departmentsService, IWebHostEnvironment _webHostEnvironment, ICalendarService _calendarService, IEmailService _emailService) : ILeaveRequestsService
+    public partial class LeaveRequestsService(LeaveManagementSystemWebContext _context, IMapper _mapper, IUserService _userService, IEmployeesService _employeesService, IEmailSender _emailSender, IDepartmentsService _departmentsService, IWebHostEnvironment _webHostEnvironment, ICalendarService _calendarService, IEmailService _emailService) : ILeaveRequestsService
     {
         public async Task CancelLeaveRequest(int leaveRequestId)
         {

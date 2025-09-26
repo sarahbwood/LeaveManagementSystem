@@ -4,9 +4,9 @@ using LeaveManagementSystem.Application.Services.Users;
 using Microsoft.EntityFrameworkCore;
 
 
-namespace LeaveManagementSystem.Application.Services.LeaveAllocations
+namespace LeaveManagementSystem.Application.Services.Employees
 {
-    public class LeaveAllocationsService(LeaveManagementSystemWebContext _context, IUserService _userService, IMapper _mapper, IDepartmentsService _departmentsService) : ILeaveAllocationsService
+    public class EmployeesService(LeaveManagementSystemWebContext _context, IUserService _userService, IMapper _mapper, IDepartmentsService _departmentsService) : IEmployeesService
     {
         public async Task<EmployeeAllocationVM> GetEmployeeAllocations(string? userId)
         {

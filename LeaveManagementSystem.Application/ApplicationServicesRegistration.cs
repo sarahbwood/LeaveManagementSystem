@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using LeaveManagementSystem.Application.Services.Calendar;
 using LeaveManagementSystem.Application.Services.Departments;
 using LeaveManagementSystem.Application.Services.Email;
-using LeaveManagementSystem.Application.Services.LeaveAllocations;
+using LeaveManagementSystem.Application.Services.Employees;
 using LeaveManagementSystem.Application.Services.LeaveRequests;
 using LeaveManagementSystem.Application.Services.LeaveTypes;
 using LeaveManagementSystem.Application.Services.Users;
@@ -21,7 +21,7 @@ namespace LeaveManagementSystem.Application
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
             services.AddScoped<ILeaveTypesService, LeaveTypesService>();
-            services.AddScoped<ILeaveAllocationsService, LeaveAllocationsService>();
+            services.AddScoped<IEmployeesService, EmployeesService>();
             services.AddScoped<ILeaveRequestsService, LeaveRequestsService>();
             services.AddScoped<IDepartmentsService, DepartmentsService>();
             services.AddScoped<IUserService, UserService>();

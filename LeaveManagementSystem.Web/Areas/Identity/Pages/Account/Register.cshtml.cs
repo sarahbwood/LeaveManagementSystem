@@ -6,7 +6,7 @@ using System.Text;
 using System.Text.Encodings.Web;
 using LeaveManagementSystem.Application.Models.Departments;
 using LeaveManagementSystem.Application.Services.Departments;
-using LeaveManagementSystem.Application.Services.LeaveAllocations;
+using LeaveManagementSystem.Application.Services.Employees;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
@@ -17,7 +17,7 @@ namespace LeaveManagementSystem.Web.Areas.Identity.Pages.Account
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly RoleManager<IdentityRole> _roleManager;
-        private readonly ILeaveAllocationsService _leaveAllocationsService;
+        private readonly IEmployeesService _employeesService;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IUserStore<ApplicationUser> _userStore;
         private readonly IUserEmailStore<ApplicationUser> _emailStore;
@@ -27,7 +27,7 @@ namespace LeaveManagementSystem.Web.Areas.Identity.Pages.Account
         private readonly IDepartmentsService _departmentsService;
 
         public RegisterModel(
-            ILeaveAllocationsService leaveAllocationsService,
+            IEmployeesService employeesService,
             UserManager<ApplicationUser> userManager,
             IUserStore<ApplicationUser> userStore,
             SignInManager<ApplicationUser> signInManager,
@@ -38,7 +38,7 @@ namespace LeaveManagementSystem.Web.Areas.Identity.Pages.Account
             IDepartmentsService departmentsService
             )
         {
-            this._leaveAllocationsService = leaveAllocationsService;
+            this._employeesService = employeesService;
             _userManager = userManager;
             _userStore = userStore;
             _emailStore = GetEmailStore();

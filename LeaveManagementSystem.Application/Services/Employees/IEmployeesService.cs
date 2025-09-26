@@ -1,8 +1,8 @@
 ﻿using LeaveManagementSystem.Application.Models.Employees;
 
-namespace LeaveManagementSystem.Application.Services.LeaveAllocations
+namespace LeaveManagementSystem.Application.Services.Employees
 {
-    public interface ILeaveAllocationsService
+    public interface IEmployeesService
     {
         Task<EmployeeAllocationVM> GetEmployeeAllocations(string? userId);
         Task<List<EmployeeListVM>> GetEmployees();
