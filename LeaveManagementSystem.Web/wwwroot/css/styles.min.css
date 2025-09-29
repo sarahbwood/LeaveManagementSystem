@@ -16617,6 +16617,10 @@ ul {
     color: navajowhite;
 }
 
+#greeting {
+    color: navajowhite;
+}
+
 .dropdown-toggle::after {
     display: none !important;
 }

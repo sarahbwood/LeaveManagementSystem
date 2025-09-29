@@ -2,6 +2,7 @@
 {
     public class EmployeeLeaveRequestListVM
     {
+        public string DepartmentName { get; set; } = string.Empty;
         [Display(Name = "Total Requests")]
         public int TotalRequests { get; set; }
         [Display(Name = "Approved Requests")]

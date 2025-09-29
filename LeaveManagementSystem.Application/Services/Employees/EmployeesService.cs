@@ -30,8 +30,19 @@ namespace LeaveManagementSystem.Application.Services.Employees
         public async Task<List<EmployeeListVM>> GetEmployees()
         {
             var users = await _userService.GetEmployees();
-            var employees = _mapper.Map<List<EmployeeListVM>>(users);
+            var manager = await _userService.GetLoggedInUser();
+            
+            if (!await _userService.IsAdmin(manager.Id))
+            {
+                var departmentId = manager.DepartmentId;
+                users = users
+                    .Where(q => q.DepartmentId == departmentId)
+                    .Where(q => q.Id != manager.Id) // exclude the manager themselves
+                    .ToList(); // managers can only see employees in their department
 
+            }
+
+            var employees = _mapper.Map<List<EmployeeListVM>>(users);
 
             return employees;
         }

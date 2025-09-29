@@ -45,12 +45,24 @@ namespace LeaveManagementSystem.Application.Services.LeaveRequests
 
         public async Task<EmployeeLeaveRequestListVM> GetAllLeaveRequests()
         {
+            var user = await _userService.GetLoggedInUser(); // get the currently logged in user
+            
             var leaveRequests = await _context.LeaveRequests
+                 .Include(q => q.Employee) 
                  .Include(q => q.LeaveType)
                  .ToListAsync();
 
+            if (!await _userService.IsAdmin(user.Id))
+            {
+                leaveRequests = leaveRequests
+                    .Where(q => q.Employee.DepartmentId == user.DepartmentId)
+                    .ToList();
+            }
+
+
             var model = new EmployeeLeaveRequestListVM
             {
+                DepartmentName = (await _departmentsService.GetDepartmentById(user.DepartmentId))?.DepartmentName ?? "",
                 TotalRequests = leaveRequests.Count, // this 'count' is a property, not a method
                 ApprovedRequests = leaveRequests.Count(q => q.LeaveRequestStatusId == (int)LeaveRequestStatusEnum.Approved),
                 PendingRequests = leaveRequests.Count(q => q.LeaveRequestStatusId == (int)LeaveRequestStatusEnum.Pending),
@@ -66,7 +78,9 @@ namespace LeaveManagementSystem.Application.Services.LeaveRequests
                             LeaveType = q.LeaveType.LeaveTypeName, // requires a join with LeaveType - must use Include in the query
                             LeaveRequestStatus = (LeaveRequestStatusEnum)q.LeaveRequestStatusId // can't be done as part of the Linq query, must be done after the query as there is no support for enums in EF Core
                         }
-                    ).ToList()
+                    )
+                    .OrderByDescending(q => q.StartDate)
+                    .ToList()
             };
 
             return model;

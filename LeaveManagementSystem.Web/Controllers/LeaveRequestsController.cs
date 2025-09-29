@@ -65,7 +65,7 @@ namespace LeaveManagementSystem.Web.Controllers
         [Authorize(Policy = "AdminManagerOnly")]
         public async Task<IActionResult> ListRequests()
         {
-            // Logic to get all leave requests
+            // Get all leave requests per department or company-wide
             var model = await _leaveRequestsService.GetAllLeaveRequests();
             return View(model);
         }

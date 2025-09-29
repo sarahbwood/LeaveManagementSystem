@@ -4,6 +4,7 @@ namespace LeaveManagementSystem.Application.Services.Users
 {
     public class UserService(UserManager<ApplicationUser> _userManager, IHttpContextAccessor _httpContextAccessor) : IUserService
     {
+
         public async Task<ApplicationUser> GetLoggedInUser()
         {
             var user = await _userManager.GetUserAsync(_httpContextAccessor.HttpContext?.User);
@@ -15,10 +16,17 @@ namespace LeaveManagementSystem.Application.Services.Users
             var user = await _userManager.FindByIdAsync(id);
             return user;
         }
+        public async Task<bool> IsAdmin(string userId)
+        {
+            var user = await GetUserById(userId);
+            var isAdmin = await _userManager.IsInRoleAsync(user, Roles.Administrator);
 
+            return isAdmin;
+        }
         public async Task<List<ApplicationUser>> GetEmployees()
         {
-            var employees = await _userManager.GetUsersInRoleAsync(Roles.Employee);
+            var employees = await _userManager
+                .GetUsersInRoleAsync(Roles.Employee);
             return employees.ToList();
         }
 

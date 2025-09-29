@@ -1,12 +1,15 @@
 ﻿@using LeaveManagementSystem.Application.Models.LeaveRequests
 @using LeaveManagementSystem.Application.Services.LeaveRequests
 @model EmployeeLeaveRequestListVM
+@inject UserManager<ApplicationUser> UserManager
 
 @{
 	ViewData["Title"] = "View Leave Requests";
+	var isManager = User.IsInRole(Roles.Manager);
+	var departmentInfo = isManager ? $"for {Model.DepartmentName}" : "";
 }
 
-<h1>Admin Leave Requests View</h1>
+<h1>Leave Requests @departmentInfo</h1>
 
 <div class="row">
 	<div class="col">
