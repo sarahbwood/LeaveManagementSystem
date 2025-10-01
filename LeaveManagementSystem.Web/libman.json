@@ -7,8 +7,12 @@
       "destination": "wwwroot/lib/sweetalert2/"
     },
     {
-      "library": "jqueryui@1.14.1",
-      "destination": "wwwroot/jqueryui/"
+        "library": "jqueryui@1.14.1",
+        "destination": "wwwroot/jqueryui/"
+    },
+    {
+        "library": "jquery@3.7.1",
+        "destination": "wwwroot/jquery/"
     },
     {
       "provider": "jsdelivr",

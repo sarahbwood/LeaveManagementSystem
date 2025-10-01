@@ -16457,8 +16457,8 @@ textarea.form-control-lg {
 .notification {
   content: "";
   position: absolute;
-  top: 22px;
-  right: 9px;
+  top: 25px;
+  right: 5px;
   width: 8px;
   height: 8px;
 }
